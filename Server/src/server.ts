@@ -9,12 +9,18 @@ app.use(express.static('public'));
 app.use(express.json());
 
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server,{
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+}
+});
 
 io.on('connection', (socket: Socket) => {
   console.log('a user connected');
 
   socket.on('chat message', (msg: string) => {
+    console.log(`message: ${JSON.stringify(msg)}`);
     io.emit('chat message', msg);
   });
 
@@ -23,7 +29,9 @@ io.on('connection', (socket: Socket) => {
   });
 });
 
-server.listen(3000, () => {
-  console.log('listening on *:3000');
-  console.log('http://localhost:3000');
+const PORT = process.env.PORT || 3000;
+
+server.listen(PORT, () => {
+  console.log(`listening on *:${PORT}`);
+  console.log(`http://localhost:${PORT}`);
 });
