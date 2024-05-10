@@ -28,7 +28,7 @@
             });
             socket.on('chat message', function(msg){
                 var li = document.createElement('li');
-                li.textContent = msg;
+                li.textContent = JSON.stringify(msg);
                 document.querySelector('#messages').appendChild(li);
                 window.scrollTo(0, document.body.scrollHeight);
             });
