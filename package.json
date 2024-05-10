@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1", 
+    "generate-changelog": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s",
     "prepare": "husky install"
   },
   "keywords": [],
