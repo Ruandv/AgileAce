@@ -1,0 +1,17 @@
+name: PR Title Check
+
+on:
+  pull_request:
+    types: [opened, edited]
+
+jobs:
+  title_check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check PR title format
+      id: title_check
+      uses: actions/checkout@v2
+      
+    - name: Use action from another repository
+      uses: Ruandv/github-actions@140af327b4b65e5975bff015f2d5b94a8e950e5c
