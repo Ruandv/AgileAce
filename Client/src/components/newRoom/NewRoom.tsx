@@ -8,10 +8,10 @@ const NewRoom = () => {
     const submitChatName = async (event: React.FormEvent) => {
         event.preventDefault();
         // post to the server to check if the room exist if exist then save the config and redirect to the chat room
-        const service = ChatRoomService.getInstance("roomName");
+        const service = ChatRoomService.getInstance(roomName.current?.value as string);
         await service.join(roomName.current?.value as string, userName.current?.value as string);
         // redirect to the chat room
-        window.location.href = '/chat';
+        //window.location.href = '/chat';
     };
     useEffect(() => {
         console.log('NewRoom component mounted');
