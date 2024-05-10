@@ -12,6 +12,7 @@ const App = () => {
       <Routes>
         <Route path="/newRoom" element={<NewGame />} />
         <Route path="/chat" element={<ChatRoom/>} />
+        <Route path="/" element={<NewGame />} />
       </Routes>
     </Router>
  </SocketProvider>
