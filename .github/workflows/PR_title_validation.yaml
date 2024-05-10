@@ -16,4 +16,5 @@ jobs:
     - name: Use action from another repository
       uses: Ruandv/gh_pr_title_validation@master
       with:
-          pr-title: "${{ github.event.pull_request.title }}"
+          pr-title: ${{ github.event.pull_request.title }}
+          regex: "^(feature|bugfix|hotfix|release)\/[A-Z]+-[0-9]+"
