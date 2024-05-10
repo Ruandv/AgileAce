@@ -1,0 +1,20 @@
+name: PR Title Check
+
+on:
+  pull_request:
+    types: [opened, edited]
+
+jobs:
+  title_check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check PR title format
+      id: title_check
+      uses: actions/checkout@v2
+      
+    - name: Use action from another repository
+      uses: Ruandv/gh_pr_title_validation@master
+      with:
+          pr-title: ${{ github.event.pull_request.title }}
+          regex: ^(fix|feat|chore|build\(deps\)|chore\(deps-dev\))(!)?:\ .+
