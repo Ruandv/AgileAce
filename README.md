@@ -22,8 +22,7 @@ The server-side of AgileAce is built using the following technologies:
 
 You can find the server-side code in the [Server](Server/) directory.
 
-## Getting Started
+## Notes
 
-To get started with AgileAce, clone this repository and follow the instructions in the README files within the Client and Server directories.
-
-We hope you find AgileAce useful for your planning poker sessions!
+- This project is setup to make use of [Conventional commit](https://www.conventionalcommits.org/en/v1.0.0/) which is validate with a husky hook
+- Pull requests are also following the Conventional commit structure for the titles which is validate by (gh_pr_title_validation)[https://github.com/Ruandv/gh_pr_title_validation] action with the regex value of `^(fix|feat|chore|build\(deps\)|chore\(deps-dev\))(!)?:\ .+`
