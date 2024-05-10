@@ -14,4 +14,4 @@ jobs:
       uses: actions/checkout@v2
       
     - name: Use action from another repository
-      uses: Ruandv/gh_pr_title_validation@main
+      uses: Ruandv/gh_pr_title_validation@master
