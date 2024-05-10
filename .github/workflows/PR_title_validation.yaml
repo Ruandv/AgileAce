@@ -15,3 +15,5 @@ jobs:
       
     - name: Use action from another repository
       uses: Ruandv/gh_pr_title_validation@master
+      with:
+        pr-title: "JAMES HELLLLLOOOOOO"
