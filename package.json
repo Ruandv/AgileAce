@@ -4,8 +4,8 @@
   "description": "AgileAce is a planning poker-like application. This repository is divided into two main components: the Client and the Server.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1", 
-    "generate-changelog": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate-changelog": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s --grep '(feat|fix|bug)'",
     "prepare": "husky install"
   },
   "keywords": [],
@@ -15,5 +15,8 @@
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
     "husky": "^9.0.11"
+  },
+  "dependencies": {
+    "typescript": "^5.4.5"
   }
 }
