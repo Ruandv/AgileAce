@@ -12,7 +12,7 @@ function ChatRoom() {
       setChat(messages);
     }
     doWork();
-  }, []);
+  }, [chatRoomService]);
 
   const submitMessage = (e: React.FormEvent) => {
     e.preventDefault();
