@@ -2,9 +2,9 @@ import io from 'socket.io-client';
 
 class ChatRoomService {
     private static instance: ChatRoomService;
-    private static readonly baseUrl = 'http://localhost:3000';
+    private static readonly baseUrl = process.env.REACT_APP_API_URL!;
     private roomName: string = '';
-    private socket = io('http://localhost:3000');
+    private socket = io(ChatRoomService.baseUrl);
 
     private constructor(roomName:string) {
 

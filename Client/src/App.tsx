@@ -7,7 +7,7 @@ import ChatRoom from './components/chatroom/ChatRoom';
 import { SocketProvider } from './contexts/SocketContext';
 const App = () => {
   return (
-    <SocketProvider url="http://localhost:3000">
+    <SocketProvider url={process.env.REACT_APP_API_URL!}>
     <Router>
       <Routes>
         <Route path="/newRoom" element={<NewGame />} />
