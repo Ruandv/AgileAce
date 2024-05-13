@@ -24,7 +24,6 @@ function ChatRoom() {
 
   return (
     <div className="container flex flex-row ">
-      <div>asdf</div>
       <div className="min-w-96">
         <div className="flex flex-col h-screen screen bg-gray-100 text-sm">
           <div className="overflow-auto h-full px-6 py-4">
@@ -52,7 +51,6 @@ function ChatRoom() {
           </form>
         </div>
       </div>
-      <div>asdf</div>
     </div>
   );
 }

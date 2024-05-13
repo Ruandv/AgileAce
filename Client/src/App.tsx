@@ -1,7 +1,7 @@
 // App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import NewGame from './components/newRoom/NewRoom';
+import NewGame from './pages/newRoom/NewRoom';
 import ChatRoom from './components/chatroom/ChatRoom';
  import './App.css';
 import { SocketProvider } from './contexts/SocketContext';
