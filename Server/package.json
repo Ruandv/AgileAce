@@ -8,7 +8,7 @@
     "socket.io": "^4.3.2"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && cp ./public ./dist/public -r",
     "start": "nodemon src/server.ts"
   },
   "keywords": [],
