@@ -10,7 +10,6 @@ class ChatRoomService {
 
       this.socket.on('RoomSettings', (msg) => {
         // save the settings to local storage
-        debugger;
         this.roomName = JSON.parse(msg).roomName;
         localStorage.setItem('roomSettings', msg);
         window.location.href = '/chat';        
