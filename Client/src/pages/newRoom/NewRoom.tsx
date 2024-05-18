@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Login from '../../components/login/Login';
-import PokerCard from '../../components/pokerCard/PokerCard';
 
 const NewRoom = () => {
     useEffect(() => {
-        console.log('NewRoom component mounted');
+        console.log('NewRoom component mounted');        
     }, []);
 
     return (

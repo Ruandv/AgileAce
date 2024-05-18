@@ -1,38 +1,26 @@
-import { io, Socket } from 'socket.io-client';
-import { ServerToClientEvents, ClientToServerEvents } from '../models/socket-io';
+import { Socket } from "socket.io-client";
 
 class ChatRoomService {
   private static instances: ChatRoomService[] = [];
   private static instance: ChatRoomService;
-  private static readonly baseUrl = 'http://localhost:3000';
+  private static roomName: string;
+
   private roomName: string = '';
-  private socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(ChatRoomService.baseUrl, {
-    withCredentials: false,
-    extraHeaders: {
-      "my-custom-header": "abcd"
-    }
-  });
+  static defaultSocket: Socket;
 
-  private constructor(roomName: string) {
-
-    this.socket.on('updateSettings', (msg) => {
-      // save the settings to local storage
-      console.log('updateSettings: ' + msg);
-      this.roomName = JSON.parse(msg).roomName;
-      localStorage.setItem('roomSettings', msg);
-      window.location.href = '/chat';
-    });
+  private constructor(roomName: string, socket: Socket) {
     this.roomName = roomName;
+    ChatRoomService.defaultSocket = socket;
   }
 
-  static getInstance(roomName?: string) {
+  static getInstance(socket:Socket,roomName?: string) {
     if (!roomName) {
-      roomName = ChatRoomService.getRoomName();
+      roomName = ChatRoomService.getRoomName()!;
     }
     console.log('getting service instance for' + roomName);
     if (!ChatRoomService.instances) {
       console.log('Creating a new instance: ' + roomName);
-      ChatRoomService.instance = new ChatRoomService(roomName!);
+      ChatRoomService.instance = new ChatRoomService(roomName!,socket);
       // add the instance to the instances array
       ChatRoomService.instances = [ChatRoomService.instance];
     }
@@ -42,7 +30,7 @@ class ChatRoomService {
       if (!instance) {
         console.log('Creating a new instance for room: ' + roomName);
         // create a new instance
-        instance = new ChatRoomService(roomName!);
+        instance = new ChatRoomService(roomName!,socket);
         // add the instance to the instances array
         ChatRoomService.instances.push(instance);
       }
@@ -51,48 +39,31 @@ class ChatRoomService {
     return ChatRoomService.instance;
   }
 
-  async getMessages() {
-    const roomSettings = localStorage.getItem('roomSettings');
-    if (roomSettings) {
-      const data = JSON.parse(roomSettings);
-      return data.messages;
-    }
-    else {
-      window.location.href = '/newRoom';
-    }
+  public static setRoomName(roomName: string) {
+    localStorage.setItem("roomName", roomName);
+    ChatRoomService.roomName = roomName;
   }
 
-  getUserCount() {
-    const roomSettings = localStorage.getItem('roomSettings');
-    if (roomSettings) {
-      const data = JSON.parse(roomSettings);
-      return data.users.length;
-    }
-    else {
-      window.location.href = '/newRoom';
-    }
+  public static setUserName(roomName: string) {
+    localStorage.setItem("userName", roomName);
+    ChatRoomService.roomName = roomName;
   }
 
   public static getRoomName() {
-    const roomSettings = localStorage.getItem('roomSettings');
-    if (roomSettings) {
-      const data = JSON.parse(roomSettings);
-      return data.roomName;
-    }
-    else {
-      window.location.href = '/newRoom';
-    }
+    return localStorage.getItem("roomName");
+  }
+
+  public static getUserName() {
+    return localStorage.getItem("userName")?? 'Anonymous';
   }
 
   async join(roomName: string, userName: string) {
-    this.socket.emit('join', roomName, userName);
+    ChatRoomService.defaultSocket.emit('join', roomName, userName);
   }
 
   async send(message: string) {
-    this.socket.emit('chat', this.roomName, message);
+    ChatRoomService.defaultSocket.emit('chat', this.roomName, message);
   }
-
-
 }
 
 export default ChatRoomService;

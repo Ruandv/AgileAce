@@ -1,4 +1,4 @@
-export interface Message{
+export interface ChatMessage{
     date:Date;
     userId:string;
     text:string;
