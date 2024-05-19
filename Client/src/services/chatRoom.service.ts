@@ -1,51 +1,69 @@
-import io from 'socket.io-client';
+import { Socket } from "socket.io-client";
 
 class ChatRoomService {
-    private static instance: ChatRoomService;
-    private static readonly baseUrl = process.env.REACT_APP_API_URL!;
-    private roomName: string = '';
-    private socket = io(ChatRoomService.baseUrl);
+  private static instances: ChatRoomService[] = [];
+  private static instance: ChatRoomService;
+  private static roomName: string;
 
-    private constructor(roomName:string) {
+  private roomName: string = '';
+  static defaultSocket: Socket;
 
-      this.socket.on('RoomSettings', (msg) => {
-        // save the settings to local storage
-        debugger;
-        this.roomName = JSON.parse(msg).roomName;
-        localStorage.setItem('roomSettings', msg);
-        window.location.href = '/chat';        
-      }); 
-      this.roomName = roomName;
+  private constructor(roomName: string, socket: Socket) {
+    this.roomName = roomName;
+    ChatRoomService.defaultSocket = socket;
+  }
+
+  static getInstance(socket: Socket, roomName?: string) {
+    if (!roomName) {
+      roomName = ChatRoomService.getRoomName()!;
     }
-  
-    static getInstance(roomName:string) {
-      if (!ChatRoomService.instance) {
-        ChatRoomService.instance = new ChatRoomService(roomName);
+    console.log('getting service instance for' + roomName);
+    if (!ChatRoomService.instances) {
+      console.log('Creating a new instance: ' + roomName);
+      ChatRoomService.instance = new ChatRoomService(roomName!, socket);
+      // add the instance to the instances array
+      ChatRoomService.instances = [ChatRoomService.instance];
+    }
+    else {
+      // check if the instance already exists
+      let instance = ChatRoomService.instances.find((instance) => instance.roomName === roomName);
+      if (!instance) {
+        console.log('Creating a new instance for room: ' + roomName);
+        // create a new instance
+        instance = new ChatRoomService(roomName!, socket);
+        // add the instance to the instances array
+        ChatRoomService.instances.push(instance);
       }
-      return ChatRoomService.instance;
+      ChatRoomService.instance = instance;
     }
-    
-    async getMessages() {
-      const roomSettings = localStorage.getItem('roomSettings');
-      if(roomSettings){
-        const data = JSON.parse(roomSettings);
-        return data.messages;
-      }
-      else
-      {
-        window.location.href = '/newRoom';
-      }
-    }
+    return ChatRoomService.instance;
+  }
 
-    async join(roomName: string,userName: string) {
-        this.socket.emit('newRoom', { roomName: roomName, userName });        
-    }
+  public static setRoomName(roomName: string) {
+    localStorage.setItem("roomName", roomName);
+    ChatRoomService.roomName = roomName;
+  }
 
-    async send(message: string) {
-      this.socket.emit('chat message', { roomName: this.roomName, message });
-    }
-    
-    
+  public static setUserName(userName: string) {
+    sessionStorage.setItem("userName", userName);
+    ChatRoomService.roomName = userName;
+  }
+
+  public static getRoomName() {
+    return localStorage.getItem("roomName");
+  }
+
+  public static getUserName() {
+    return sessionStorage.getItem("userName") ?? localStorage.getItem("userName") ?? 'John Doe';
+  }
+
+  async join(roomName: string, userName: string) {
+    ChatRoomService.defaultSocket.emit('join', roomName, userName);
+  }
+
+  async send(message: string) {
+    ChatRoomService.defaultSocket.emit('chat', this.roomName, message);
+  }
 }
 
 export default ChatRoomService;
