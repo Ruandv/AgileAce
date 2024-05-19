@@ -13,14 +13,14 @@ class ChatRoomService {
     ChatRoomService.defaultSocket = socket;
   }
 
-  static getInstance(socket:Socket,roomName?: string) {
+  static getInstance(socket: Socket, roomName?: string) {
     if (!roomName) {
       roomName = ChatRoomService.getRoomName()!;
     }
     console.log('getting service instance for' + roomName);
     if (!ChatRoomService.instances) {
       console.log('Creating a new instance: ' + roomName);
-      ChatRoomService.instance = new ChatRoomService(roomName!,socket);
+      ChatRoomService.instance = new ChatRoomService(roomName!, socket);
       // add the instance to the instances array
       ChatRoomService.instances = [ChatRoomService.instance];
     }
@@ -30,7 +30,7 @@ class ChatRoomService {
       if (!instance) {
         console.log('Creating a new instance for room: ' + roomName);
         // create a new instance
-        instance = new ChatRoomService(roomName!,socket);
+        instance = new ChatRoomService(roomName!, socket);
         // add the instance to the instances array
         ChatRoomService.instances.push(instance);
       }
@@ -44,9 +44,9 @@ class ChatRoomService {
     ChatRoomService.roomName = roomName;
   }
 
-  public static setUserName(roomName: string) {
-    localStorage.setItem("userName", roomName);
-    ChatRoomService.roomName = roomName;
+  public static setUserName(userName: string) {
+    sessionStorage.setItem("userName", userName);
+    ChatRoomService.roomName = userName;
   }
 
   public static getRoomName() {
@@ -54,7 +54,7 @@ class ChatRoomService {
   }
 
   public static getUserName() {
-    return localStorage.getItem("userName")?? 'Anonymous';
+    return sessionStorage.getItem("userName") ?? localStorage.getItem("userName") ?? 'John Doe';
   }
 
   async join(roomName: string, userName: string) {

@@ -11,6 +11,9 @@
     "build": "tsc",
     "start": "nodemon src/server.ts"
   },
+  "nodemonConfig": {
+    "ignore": ["*.json", "public/javascripts/*.js"]
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

@@ -17,6 +17,7 @@ export const defaultSocket = io(API_URL, {
     withCredentials: false,
     extraHeaders: {
         "my-custom-header": "abcd",
+        "my-user-name": sessionStorage.getItem("userName") ?? localStorage.getItem("userName") ?? "John Doe",
     },
 });
 

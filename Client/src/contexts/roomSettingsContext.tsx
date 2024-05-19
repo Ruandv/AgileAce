@@ -67,7 +67,6 @@ export const RoomContextProvider = ({ children }: RoomContextProviderProps): JSX
             settings: chatRoom.settings,
             me: chatRoom.users.find(u => u.userId === '3')?? {} as User
         };
-        debugger;
         setRoom(data as Room)
     }, [chatRoom]);
     return (

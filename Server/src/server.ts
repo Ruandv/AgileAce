@@ -25,7 +25,7 @@ const io = new Server<
   cors: {
     origin: "*",
     methods: ["GET", "POST"],
-    allowedHeaders: ["my-custom-header"],
+    allowedHeaders: ["my-custom-header","my-user-name"],
     credentials: false
   }
 });
@@ -48,12 +48,16 @@ io.on('connection', (socket: Socket) => {
   };
 
   socket.on('chat', (roomName: string, msg: string) => {
+    //read the socket headers to retrieve the user name
+    const userName = socket.handshake.headers['my-user-name'];
+    console.log(`chat: ${roomName} ${msg}`);
     let room = getRoom(roomName);
+    const user:User = room?.users.find((user) => user.userName === userName) as User;
     if (!room) {
       const userName = 'user' + Math.floor(Math.random() * 1000);
       // throw an error
       socket.join(roomName);
-      room = {
+      room = { 
         settings: { showVotes: false },
         messages: [{
           text: `${userName} created the room ${roomName}`,
@@ -76,8 +80,8 @@ io.on('connection', (socket: Socket) => {
       userId: socket.id,
       date: new Date()
     });
-    console.log(`message ${socket.id}: ${JSON.stringify(msg)}`);
-    logRooms();
+    console.log(`message ${user?.userName}: ${JSON.stringify(msg)}`);
+    logRooms('chat');
     io.emit('updateSettings', JSON.stringify(room));
     fs.writeFileSync('rooms.json', JSON.stringify(rooms, null, 2));
   });
@@ -113,7 +117,7 @@ io.on('connection', (socket: Socket) => {
     }
     else {
       room.messages.push({
-        text: `${userName} joined the room`,
+        text: `${userName} [${socket.id}] joined the room`,
         userId: socket.id,
         date: new Date()
       });
@@ -126,7 +130,7 @@ io.on('connection', (socket: Socket) => {
       });
     }
     console.log(JSON.stringify(room, null, 2));
-    logRooms();
+    logRooms('join');
     io.emit('updateSettings', JSON.stringify(room));
   });
 
@@ -139,16 +143,11 @@ io.on('connection', (socket: Socket) => {
     // remove the user from the room
     if (room) {
       const user = room.users.find((user) => user.userId === socket.id);
-      room.users = room.users.filter((user) => user.userId !== socket.id);
-      // room.messages.push({
-      //   text: `${user?.userName} left the room`,
-      //   userId: socket.id,
-      //   date: new Date()
-      // });
+      room.users = room.users.filter((user) => user.userId !== socket.id); 
       io.emit('updateSettings', JSON.stringify(room));
     }
     console.log('user disconnected');
-    logRooms();
+    logRooms('disconnect');
   });
 });
 
@@ -160,13 +159,17 @@ server.listen(PORT, () => {
 });
 
 function getRoom(roomName: string) {
-  return rooms.find((room) => room.roomName === roomName);
+  let room = rooms.find((room) => room.roomName === roomName);
+  if(!room) {
+    room = rooms.find((room) => room.roomId === roomName);
+  }
+  return room;
 }
 
-function logRooms() {
-  console.log('\r\n\r\n-----------------------------\r\n\r\n')
+function logRooms(func:string) {
+  console.log(`\r\n\r\n-------------${func}----------------\r\n\r\n`);
   io.of('/').adapter.rooms.forEach((value, key) => {
-    console.log(`Room: ${key} has ${value.size} connections`);
+    console.log(`Room: ${getRoom(key.toString())?.roomName} has ${value.size} connections`);
     // log all the connections in the room
     value.forEach((socketId) => {
       console.log(`\t${socketId}`);
