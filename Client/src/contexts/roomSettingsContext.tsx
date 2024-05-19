@@ -8,10 +8,11 @@ import React, {
     Context,
     useEffect,
 } from 'react';
-import { useChatMessages, useChatRoom } from './socketContext';
+
 import { ChatMessage } from '../models/chatMessage';
 import { User } from '../models/user';
 import { Settings } from '../models/settings';
+import { useChatRoom } from './SocketContext';
 
 // Define the Room interface
 export interface Room {

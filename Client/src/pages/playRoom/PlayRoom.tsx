@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useRoom } from '../../contexts/roomSettingsContext';
 import ChatRoomService from '../../services/chatRoom.service';
-import { useChatMessages, useSocket } from '../../contexts/socketContext';
+import { useChatMessages, useSocket } from '../../contexts/SocketContext';
 import ChatRoom from '../../components/chatroom/ChatRoom';
 import PokerCard from '../../components/pokerCard/PokerCard';
 import { User } from '../../models/user';
