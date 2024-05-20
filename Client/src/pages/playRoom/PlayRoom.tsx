@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useRoom } from '../../contexts/roomSettingsContext';
 import ChatRoomService from '../../services/chatRoom.service';
-import { useChatMessages, useSocket } from '../../contexts/socketContext';
+import { useChatMessages, useSocket } from '../../contexts/SocketContext';
 import ChatRoom from '../../components/chatroom/ChatRoom';
 import PokerCard from '../../components/pokerCard/PokerCard';
 import { User } from '../../models/user';
@@ -13,7 +13,7 @@ const PlayRoom = () => {
     const socket = useSocket();
     const messages = useChatMessages();
     const [connectedUsers, setConnectedUsers] = useState<string>('');
-
+    const [selectedCard, setSelectedCard] = useState<string>('0');
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     let api = useRef<ChatRoomService>();
@@ -103,12 +103,16 @@ const PlayRoom = () => {
                                 </Modal>
                             )}
                             <span className='flex flex-row'>
-                                {[1, 2, 3, 4].map((i) =>
-                                    <PokerCard
-                                        display={i.toString()}
-                                        isActive={false}
-                                        onClick={() => { }}
-                                    />
+                                {selectedCard}
+                                {[1, 2, 3, 4].map((i, idx) =>
+                                    <>{idx}- {(selectedCard === idx.toString()).toString()}
+                                        <PokerCard
+                                            key={idx.toString()}
+                                            display={i.toString()}
+                                            isActive={selectedCard === idx.toString()}
+                                            onClick={() => { setSelectedCard(idx.toString()) }}
+                                        />
+                                    </>
                                 )}
                             </span>
                         </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './ChatRoom.css';
 import ChatRoomService from '../../services/chatRoom.service';
-import { useChatMessages, useSocket } from '../../contexts/socketContext';
+import { useChatMessages, useSocket } from '../../contexts/SocketContext';
 
 function ChatRoom() {
   const socket = useSocket();

@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { defaultSocket } from "./socketContext";
+import { defaultSocket } from "./SocketContext";
 import { defaultRoom } from "./roomSettingsContext";
 
 export const RoomSettingsContext = createContext(defaultRoom);

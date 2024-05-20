@@ -9,13 +9,12 @@ interface PokerCardProps {
 }
 
 function PokerCard(pokerCardProps: PokerCardProps) {
-    let [isActive,setIsActive] = useState(pokerCardProps.isActive || false);
     return (
-        <div key={pokerCardProps.display} tabIndex={1} className={`poker-card ${isActive===true ? 'slide' : 'back'}`} onClick={() => {
-            setIsActive(!isActive); 
+        <div key={pokerCardProps.display} tabIndex={1} className={`poker-card ${pokerCardProps.isActive===true ? 'slide' : 'back'}`} onClick={() => {
+            
             pokerCardProps.onClick && pokerCardProps.onClick()
         }}>
-            {isActive ? pokerCardProps.display : '?'}
+            {pokerCardProps.isActive ? pokerCardProps.display : '?'}
         </div>
     );
 }
