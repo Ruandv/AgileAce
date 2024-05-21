@@ -62,6 +62,17 @@ class ChatRoomService {
     }
   }
 
+  async getPlayCards() {
+    const roomSettings = localStorage.getItem('roomSettings');
+    if (roomSettings) {
+      const data = JSON.parse(roomSettings);
+      return data.playCards;
+    }
+    else {
+      window.location.href = '/newRoom';
+    }
+  }
+
   getUserCount() {
     const roomSettings = localStorage.getItem('roomSettings');
     if (roomSettings) {

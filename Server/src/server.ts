@@ -79,7 +79,8 @@ io.on('connection', (socket: Socket) => {
           date: new Date()
         } as Message],
         roomName: obj,
-        roomId: new Date().toDateString(),
+        roomId: new Date().toDateString(), 
+        playCards: [1,2,3,4],
         users: [{
           userName: b,
           avatar: "",

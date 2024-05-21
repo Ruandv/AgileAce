@@ -6,4 +6,5 @@ export interface ChatRoom {
     roomName: string;
     users: User[];
     messages: Message[];
+    playCards: number[];
 }
