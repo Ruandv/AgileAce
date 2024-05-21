@@ -1,0 +1,54 @@
+  .poker-table {
+
+    height: calc(100vh - 120px); 
+    padding: 20px;
+    border: 10px solid #6b4423; 
+    border-radius: 50px;
+
+    /* background: #800000;
+    background-image: linear-gradient(rgba(255, 0, 0, 0.5), rgba(255, 0, 0, 0.5)), url('https://www.transparenttextures.com/patterns/stucco.png'); */
+
+    background: #006400; 
+    background-image: linear-gradient(rgba(0, 100, 0, 0.5), rgba(0, 100, 0, 0.5)), url('https://www.transparenttextures.com/patterns/stucco.png'); /* Green velvet texture */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.mycontainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.mychat-pane {
+  display: none;
+}
+
+.myplay-area {
+  flex: 1;
+}
+
+@media (min-width: 768px) {
+  .mycontainer {
+      flex-direction: row;
+  }
+
+  .mychat-pane {
+      display: block;
+      width: 25%;
+  }
+
+  .myplay-area {
+      display: block;
+      width: 75%;
+  }
+}
