@@ -1,23 +1,22 @@
 import React, { useRef } from 'react';
 import './Login.css';
 import ChatRoomService from '../../services/chatRoom.service';
-import PokerCard from '../pokerCard/PokerCard';
 
 function Login() {
     const userName = useRef<HTMLInputElement>(null); // Create a ref for the userName input element
     const roomName = useRef<HTMLInputElement>(null); // Create a ref for the roomName input element
     const submitChatName = async (event: React.FormEvent) => {
         event.preventDefault();
-        // post to the server to check if the room exist if exist then save the config and redirect to the chat room
-        const service = ChatRoomService.getInstance(roomName.current?.value as string);
-        await service.join(roomName.current?.value as string, userName.current?.value as string);
+        ChatRoomService.setRoomName(roomName.current!.value); // Set the room name
+        ChatRoomService.setUserName(userName.current!.value); // Set the room name
+
         // redirect to the chat room
-        //window.location.href = '/chat';
+        window.location.href = '/chat?roomName=' + roomName.current!.value + '&userName=' + userName.current!.value;
     };
-    
+
     return (
-        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 w:24">
-             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 w:24">            
+            <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                 <img
                     className="mx-auto h-10 w-auto"
                     src="logo192.png"
@@ -72,7 +71,7 @@ function Login() {
                         </button>
                     </div>
                 </form>
-            </div> 
+            </div>
         </div>
     );
 }

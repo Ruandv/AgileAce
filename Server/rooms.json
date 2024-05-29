@@ -1,1 +1,728 @@
-[{"messages":[{"text":"car created the room teast","userId":"T84pmpEU1f7yU-18AAAI","date":"2024-05-10T22:43:20.052Z"},{"text":"car left the room","userId":"T84pmpEU1f7yU-18AAAI","date":"2024-05-10T22:43:28.699Z"},{"text":"yay","userId":"bQ1piw7gSMX1nA9vAAAS","date":"2024-05-10T22:43:48.053Z"}],"roomName":"teast","roomId":"Sat May 11 2024","users":[]},{"messages":[{"text":"adsf created the room test","userId":"fbFcRS5ImUfXjhebAAAM","date":"2024-05-10T22:50:18.526Z"},{"text":"adsf left the room","userId":"fbFcRS5ImUfXjhebAAAM","date":"2024-05-10T22:50:18.575Z"},{"text":"jack","userId":"CNXVqRRA8wVdGoiOAAAR","date":"2024-05-10T22:50:34.043Z"},{"text":"sd","userId":"Ubjoz2WMilHTnXP-AAAH","date":"2024-05-10T22:50:56.843Z"},{"text":"csd joined the room","userId":"0eLUpEhg_s46vNJhAAAR","date":"2024-05-10T22:51:21.870Z"},{"text":"csd left the room","userId":"0eLUpEhg_s46vNJhAAAR","date":"2024-05-10T22:51:21.955Z"},{"text":"ca","userId":"owsjKJIh3x24i9FOAAAd","date":"2024-05-10T22:51:33.383Z"},{"text":"[object Object]sf","userId":"X1HoizPEHUogmz1WAAAO","date":"2024-05-10T22:57:35.145Z"},{"text":"sending","userId":"mm1CxfggkXNyIJ0WAAAH","date":"2024-05-10T22:57:54.974Z"},{"text":"sdf","userId":"8qJnHZShOxE6_NA7AACK","date":"2024-05-10T23:00:43.251Z"},{"text":"sf joined the room","userId":"ywwmGwZCZYyBshUDAAAO","date":"2024-05-10T23:00:52.175Z"},{"text":"sf left the room","userId":"ywwmGwZCZYyBshUDAAAO","date":"2024-05-10T23:00:52.257Z"},{"text":"sdfff joined the room","userId":"WaRinGkG22TYp6I-AAAi","date":"2024-05-10T23:01:03.729Z"},{"text":"sdfff left the room","userId":"WaRinGkG22TYp6I-AAAi","date":"2024-05-10T23:01:03.796Z"},{"text":"cas","userId":"hH3OFyJe0w0xU1BTAAAq","date":"2024-05-10T23:02:00.466Z"},{"text":"care","userId":"BGhcd5GVXKJ1SBA7AAAQ","date":"2024-05-10T23:03:21.963Z"}],"roomName":"test","roomId":"Sat May 11 2024","users":[]},{"messages":[{"text":"f created the room asf","userId":"ltHfa-Jg-xOWajWIAAAV","date":"2024-05-10T23:08:54.469Z"},{"text":"f left the room","userId":"ltHfa-Jg-xOWajWIAAAV","date":"2024-05-10T23:08:54.527Z"},{"text":"sf","userId":"9Wkjp5dG6uvOV7cSAAAp","date":"2024-05-10T23:25:04.936Z"}],"roomName":"asf","roomId":"Sat May 11 2024","users":[]},{"messages":[{"text":"d created the room s","userId":"94YQS57eZW4NUuSvAAAE","date":"2024-05-14T17:21:08.859Z"},{"text":"d left the room","userId":"94YQS57eZW4NUuSvAAAE","date":"2024-05-14T17:21:08.902Z"},{"text":"test","userId":"Spxfmt-CDoch-8GqAAAJ","date":"2024-05-14T17:21:19.074Z"}],"roomName":"s","roomId":"Tue May 14 2024","users":[]}]
+[
+  {
+    "settings": {
+      "showVotes": false
+    },
+    "messages": [
+      {
+        "text": "jadfs created the room NewRoom",
+        "userId": "ld2LU4lTvAQpXJ6rAAAF",
+        "date": "2024-05-19T21:40:37.788Z"
+      },
+      {
+        "text": "cds",
+        "userId": "ld2LU4lTvAQpXJ6rAAAF",
+        "date": "2024-05-19T21:40:42.357Z"
+      },
+      {
+        "text": "test",
+        "userId": "e4o4m46oovTI_NIjAAAC",
+        "date": "2024-05-19T21:45:38.070Z"
+      },
+      {
+        "text": "John Doe [tAyEf4XWZoUUNPbMAAAF] joined the room",
+        "userId": "tAyEf4XWZoUUNPbMAAAF",
+        "date": "2024-05-19T21:45:41.402Z"
+      },
+      {
+        "text": "as",
+        "userId": "tAyEf4XWZoUUNPbMAAAF",
+        "date": "2024-05-19T21:46:36.787Z"
+      },
+      {
+        "text": "John Doe [tAyEf4XWZoUUNPbMAAAF] joined the room",
+        "userId": "tAyEf4XWZoUUNPbMAAAF",
+        "date": "2024-05-19T21:48:25.460Z"
+      },
+      {
+        "text": "John Doe [tAyEf4XWZoUUNPbMAAAF] joined the room",
+        "userId": "tAyEf4XWZoUUNPbMAAAF",
+        "date": "2024-05-19T21:48:36.615Z"
+      },
+      {
+        "text": "John Doe [tAyEf4XWZoUUNPbMAAAF] joined the room",
+        "userId": "tAyEf4XWZoUUNPbMAAAF",
+        "date": "2024-05-19T21:48:38.473Z"
+      },
+      {
+        "text": "John Doe [1R58Vr4H7yrMd-naAAAH] joined the room",
+        "userId": "1R58Vr4H7yrMd-naAAAH",
+        "date": "2024-05-19T21:48:45.164Z"
+      },
+      {
+        "text": "John Doe [1R58Vr4H7yrMd-naAAAH] joined the room",
+        "userId": "1R58Vr4H7yrMd-naAAAH",
+        "date": "2024-05-19T21:49:57.950Z"
+      },
+      {
+        "text": "John Doe [1R58Vr4H7yrMd-naAAAH] joined the room",
+        "userId": "1R58Vr4H7yrMd-naAAAH",
+        "date": "2024-05-19T21:50:08.923Z"
+      },
+      {
+        "text": "John Doe [1R58Vr4H7yrMd-naAAAH] joined the room",
+        "userId": "1R58Vr4H7yrMd-naAAAH",
+        "date": "2024-05-19T21:50:19.149Z"
+      },
+      {
+        "text": "John Doe [1R58Vr4H7yrMd-naAAAH] joined the room",
+        "userId": "1R58Vr4H7yrMd-naAAAH",
+        "date": "2024-05-19T21:51:18.859Z"
+      },
+      {
+        "text": "John Doe [1R58Vr4H7yrMd-naAAAH] joined the room",
+        "userId": "1R58Vr4H7yrMd-naAAAH",
+        "date": "2024-05-19T21:51:19.470Z"
+      },
+      {
+        "text": "John Doe [FFUz3SQMWEZ88PhQAAAL] joined the room",
+        "userId": "FFUz3SQMWEZ88PhQAAAL",
+        "date": "2024-05-19T21:51:34.714Z"
+      },
+      {
+        "text": "John Doe [joG9Y6qftdM8E_lgAAAN] joined the room",
+        "userId": "joG9Y6qftdM8E_lgAAAN",
+        "date": "2024-05-19T21:52:14.060Z"
+      },
+      {
+        "text": "John Doe [joG9Y6qftdM8E_lgAAAN] joined the room",
+        "userId": "joG9Y6qftdM8E_lgAAAN",
+        "date": "2024-05-19T21:53:22.782Z"
+      },
+      {
+        "text": "John Doe [joG9Y6qftdM8E_lgAAAN] joined the room",
+        "userId": "joG9Y6qftdM8E_lgAAAN",
+        "date": "2024-05-19T21:53:24.597Z"
+      },
+      {
+        "text": "John Doe [joG9Y6qftdM8E_lgAAAN] joined the room",
+        "userId": "joG9Y6qftdM8E_lgAAAN",
+        "date": "2024-05-19T22:01:35.615Z"
+      },
+      {
+        "text": "John Doe [joG9Y6qftdM8E_lgAAAN] joined the room",
+        "userId": "joG9Y6qftdM8E_lgAAAN",
+        "date": "2024-05-19T22:08:01.764Z"
+      },
+      {
+        "text": "John Doe [joG9Y6qftdM8E_lgAAAN] joined the room",
+        "userId": "joG9Y6qftdM8E_lgAAAN",
+        "date": "2024-05-19T22:08:20.620Z"
+      },
+      {
+        "text": "John Doe [joG9Y6qftdM8E_lgAAAN] joined the room",
+        "userId": "joG9Y6qftdM8E_lgAAAN",
+        "date": "2024-05-19T22:08:30.360Z"
+      },
+      {
+        "text": "John Doe [joG9Y6qftdM8E_lgAAAN] joined the room",
+        "userId": "joG9Y6qftdM8E_lgAAAN",
+        "date": "2024-05-19T22:08:50.632Z"
+      },
+      {
+        "text": "John Doe [joG9Y6qftdM8E_lgAAAN] joined the room",
+        "userId": "joG9Y6qftdM8E_lgAAAN",
+        "date": "2024-05-19T22:09:18.626Z"
+      },
+      {
+        "text": "John Doe [joG9Y6qftdM8E_lgAAAN] joined the room",
+        "userId": "joG9Y6qftdM8E_lgAAAN",
+        "date": "2024-05-19T22:09:21.612Z"
+      },
+      {
+        "text": "John Doe [joG9Y6qftdM8E_lgAAAN] joined the room",
+        "userId": "joG9Y6qftdM8E_lgAAAN",
+        "date": "2024-05-19T22:09:48.240Z"
+      },
+      {
+        "text": "John Doe [joG9Y6qftdM8E_lgAAAN] joined the room",
+        "userId": "joG9Y6qftdM8E_lgAAAN",
+        "date": "2024-05-19T22:09:54.305Z"
+      },
+      {
+        "text": "John Doe [joG9Y6qftdM8E_lgAAAN] joined the room",
+        "userId": "joG9Y6qftdM8E_lgAAAN",
+        "date": "2024-05-19T22:10:11.166Z"
+      },
+      {
+        "text": "John Doe [joG9Y6qftdM8E_lgAAAN] joined the room",
+        "userId": "joG9Y6qftdM8E_lgAAAN",
+        "date": "2024-05-19T22:10:21.352Z"
+      },
+      {
+        "text": "John Doe [joG9Y6qftdM8E_lgAAAN] joined the room",
+        "userId": "joG9Y6qftdM8E_lgAAAN",
+        "date": "2024-05-19T22:10:33.826Z"
+      },
+      {
+        "text": "John Doe [joG9Y6qftdM8E_lgAAAN] joined the room",
+        "userId": "joG9Y6qftdM8E_lgAAAN",
+        "date": "2024-05-19T22:10:53.983Z"
+      },
+      {
+        "text": "John Doe [A_Up7rDWJsxEce_aAAAR] joined the room",
+        "userId": "A_Up7rDWJsxEce_aAAAR",
+        "date": "2024-05-19T22:34:08.658Z"
+      },
+      {
+        "text": "John Doe [A_Up7rDWJsxEce_aAAAR] joined the room",
+        "userId": "A_Up7rDWJsxEce_aAAAR",
+        "date": "2024-05-19T22:36:05.475Z"
+      },
+      {
+        "text": "John Doe [A_Up7rDWJsxEce_aAAAR] joined the room",
+        "userId": "A_Up7rDWJsxEce_aAAAR",
+        "date": "2024-05-19T22:36:20.240Z"
+      },
+      {
+        "text": "John Doe [A_Up7rDWJsxEce_aAAAR] joined the room",
+        "userId": "A_Up7rDWJsxEce_aAAAR",
+        "date": "2024-05-19T22:37:46.589Z"
+      },
+      {
+        "text": "John Doe [A_Up7rDWJsxEce_aAAAR] joined the room",
+        "userId": "A_Up7rDWJsxEce_aAAAR",
+        "date": "2024-05-19T22:43:38.621Z"
+      },
+      {
+        "text": "John Doe [A_Up7rDWJsxEce_aAAAR] joined the room",
+        "userId": "A_Up7rDWJsxEce_aAAAR",
+        "date": "2024-05-19T22:43:55.625Z"
+      },
+      {
+        "text": "John Doe [A_Up7rDWJsxEce_aAAAR] joined the room",
+        "userId": "A_Up7rDWJsxEce_aAAAR",
+        "date": "2024-05-19T22:44:26.954Z"
+      },
+      {
+        "text": "John Doe [A_Up7rDWJsxEce_aAAAR] joined the room",
+        "userId": "A_Up7rDWJsxEce_aAAAR",
+        "date": "2024-05-19T22:44:29.183Z"
+      },
+      {
+        "text": "John Doe [A_Up7rDWJsxEce_aAAAR] joined the room",
+        "userId": "A_Up7rDWJsxEce_aAAAR",
+        "date": "2024-05-19T22:44:44.125Z"
+      },
+      {
+        "text": "John Doe [A_Up7rDWJsxEce_aAAAR] joined the room",
+        "userId": "A_Up7rDWJsxEce_aAAAR",
+        "date": "2024-05-19T22:45:45.624Z"
+      },
+      {
+        "text": "John Doe [A_Up7rDWJsxEce_aAAAR] joined the room",
+        "userId": "A_Up7rDWJsxEce_aAAAR",
+        "date": "2024-05-19T22:46:15.301Z"
+      },
+      {
+        "text": "John Doe [A_Up7rDWJsxEce_aAAAR] joined the room",
+        "userId": "A_Up7rDWJsxEce_aAAAR",
+        "date": "2024-05-19T22:47:20.060Z"
+      },
+      {
+        "text": "John Doe [A_Up7rDWJsxEce_aAAAR] joined the room",
+        "userId": "A_Up7rDWJsxEce_aAAAR",
+        "date": "2024-05-19T22:47:37.442Z"
+      },
+      {
+        "text": "John Doe [A_Up7rDWJsxEce_aAAAR] joined the room",
+        "userId": "A_Up7rDWJsxEce_aAAAR",
+        "date": "2024-05-19T22:47:58.624Z"
+      },
+      {
+        "text": "John Doe [A_Up7rDWJsxEce_aAAAR] joined the room",
+        "userId": "A_Up7rDWJsxEce_aAAAR",
+        "date": "2024-05-19T22:48:05.962Z"
+      },
+      {
+        "text": "John Doe [4HmKQa_5ipkmCM9hAAAT] joined the room",
+        "userId": "4HmKQa_5ipkmCM9hAAAT",
+        "date": "2024-05-19T22:48:14.330Z"
+      },
+      {
+        "text": "Jack [uCoqCo2jmmz0vaPrAAAV] joined the room",
+        "userId": "uCoqCo2jmmz0vaPrAAAV",
+        "date": "2024-05-19T22:48:26.553Z"
+      },
+      {
+        "text": "Jack [uCoqCo2jmmz0vaPrAAAV] joined the room",
+        "userId": "uCoqCo2jmmz0vaPrAAAV",
+        "date": "2024-05-19T22:48:39.759Z"
+      },
+      {
+        "text": "Jack [uCoqCo2jmmz0vaPrAAAV] joined the room",
+        "userId": "uCoqCo2jmmz0vaPrAAAV",
+        "date": "2024-05-19T22:49:11.821Z"
+      },
+      {
+        "text": "Jack [uCoqCo2jmmz0vaPrAAAV] joined the room",
+        "userId": "uCoqCo2jmmz0vaPrAAAV",
+        "date": "2024-05-19T22:49:14.562Z"
+      },
+      {
+        "text": "Jack [uCoqCo2jmmz0vaPrAAAV] joined the room",
+        "userId": "uCoqCo2jmmz0vaPrAAAV",
+        "date": "2024-05-19T22:56:46.620Z"
+      },
+      {
+        "text": "Jack [uCoqCo2jmmz0vaPrAAAV] joined the room",
+        "userId": "uCoqCo2jmmz0vaPrAAAV",
+        "date": "2024-05-19T22:56:58.638Z"
+      },
+      {
+        "text": "Jack [uCoqCo2jmmz0vaPrAAAV] joined the room",
+        "userId": "uCoqCo2jmmz0vaPrAAAV",
+        "date": "2024-05-19T23:01:02.305Z"
+      },
+      {
+        "text": "Jack [uCoqCo2jmmz0vaPrAAAV] joined the room",
+        "userId": "uCoqCo2jmmz0vaPrAAAV",
+        "date": "2024-05-19T23:01:20.096Z"
+      },
+      {
+        "text": "Jack [uCoqCo2jmmz0vaPrAAAV] joined the room",
+        "userId": "uCoqCo2jmmz0vaPrAAAV",
+        "date": "2024-05-19T23:01:36.535Z"
+      },
+      {
+        "text": "Jack [uCoqCo2jmmz0vaPrAAAV] joined the room",
+        "userId": "uCoqCo2jmmz0vaPrAAAV",
+        "date": "2024-05-19T23:03:17.382Z"
+      },
+      {
+        "text": "se",
+        "userId": "8V2hugBr6K4b9LiAAAAp",
+        "date": "2024-05-19T23:39:37.953Z"
+      }
+    ],
+    "roomName": "NewRoom",
+    "roomId": "Sun May 19 2024",
+    "users": [
+      {
+        "userName": "jadfs",
+        "avatar": "",
+        "userId": "ld2LU4lTvAQpXJ6rAAAF"
+      }
+    ]
+  },
+  {
+    "settings": {
+      "showVotes": false
+    },
+    "messages": [
+      {
+        "text": "jadfs created the room AnotehrRoom",
+        "userId": "uAqUjDhRPgsmW-jlAAAD",
+        "date": "2024-05-19T21:48:25.621Z"
+      },
+      {
+        "text": "jadfs [uAqUjDhRPgsmW-jlAAAD] joined the room",
+        "userId": "uAqUjDhRPgsmW-jlAAAD",
+        "date": "2024-05-19T21:48:37.621Z"
+      },
+      {
+        "text": "jadfs [uAqUjDhRPgsmW-jlAAAD] joined the room",
+        "userId": "uAqUjDhRPgsmW-jlAAAD",
+        "date": "2024-05-19T21:48:38.620Z"
+      },
+      {
+        "text": "jadfs [a-MtxYMlFPBD84A2AAAJ] joined the room",
+        "userId": "a-MtxYMlFPBD84A2AAAJ",
+        "date": "2024-05-19T21:48:47.567Z"
+      },
+      {
+        "text": "jadfs [a-MtxYMlFPBD84A2AAAJ] joined the room",
+        "userId": "a-MtxYMlFPBD84A2AAAJ",
+        "date": "2024-05-19T21:49:58.617Z"
+      },
+      {
+        "text": "jadfs [a-MtxYMlFPBD84A2AAAJ] joined the room",
+        "userId": "a-MtxYMlFPBD84A2AAAJ",
+        "date": "2024-05-19T21:50:09.630Z"
+      },
+      {
+        "text": "jadfs [a-MtxYMlFPBD84A2AAAJ] joined the room",
+        "userId": "a-MtxYMlFPBD84A2AAAJ",
+        "date": "2024-05-19T21:50:19.620Z"
+      },
+      {
+        "text": "jadfs [a-MtxYMlFPBD84A2AAAJ] joined the room",
+        "userId": "a-MtxYMlFPBD84A2AAAJ",
+        "date": "2024-05-19T21:51:19.620Z"
+      },
+      {
+        "text": "jadfs [a-MtxYMlFPBD84A2AAAJ] joined the room",
+        "userId": "a-MtxYMlFPBD84A2AAAJ",
+        "date": "2024-05-19T21:53:23.618Z"
+      },
+      {
+        "text": "jadfs [a-MtxYMlFPBD84A2AAAJ] joined the room",
+        "userId": "a-MtxYMlFPBD84A2AAAJ",
+        "date": "2024-05-19T21:53:24.623Z"
+      },
+      {
+        "text": "jadfs [a-MtxYMlFPBD84A2AAAJ] joined the room",
+        "userId": "a-MtxYMlFPBD84A2AAAJ",
+        "date": "2024-05-19T22:01:35.621Z"
+      },
+      {
+        "text": "jadfs [a-MtxYMlFPBD84A2AAAJ] joined the room",
+        "userId": "a-MtxYMlFPBD84A2AAAJ",
+        "date": "2024-05-19T22:08:02.616Z"
+      },
+      {
+        "text": "jadfs [a-MtxYMlFPBD84A2AAAJ] joined the room",
+        "userId": "a-MtxYMlFPBD84A2AAAJ",
+        "date": "2024-05-19T22:08:20.625Z"
+      },
+      {
+        "text": "jadfs [a-MtxYMlFPBD84A2AAAJ] joined the room",
+        "userId": "a-MtxYMlFPBD84A2AAAJ",
+        "date": "2024-05-19T22:08:30.620Z"
+      },
+      {
+        "text": "jadfs [a-MtxYMlFPBD84A2AAAJ] joined the room",
+        "userId": "a-MtxYMlFPBD84A2AAAJ",
+        "date": "2024-05-19T22:08:50.626Z"
+      },
+      {
+        "text": "jadfs [a-MtxYMlFPBD84A2AAAJ] joined the room",
+        "userId": "a-MtxYMlFPBD84A2AAAJ",
+        "date": "2024-05-19T22:09:18.620Z"
+      },
+      {
+        "text": "jadfs [a-MtxYMlFPBD84A2AAAJ] joined the room",
+        "userId": "a-MtxYMlFPBD84A2AAAJ",
+        "date": "2024-05-19T22:09:21.620Z"
+      },
+      {
+        "text": "jadfs [a-MtxYMlFPBD84A2AAAJ] joined the room",
+        "userId": "a-MtxYMlFPBD84A2AAAJ",
+        "date": "2024-05-19T22:09:48.636Z"
+      },
+      {
+        "text": "jadfs [a-MtxYMlFPBD84A2AAAJ] joined the room",
+        "userId": "a-MtxYMlFPBD84A2AAAJ",
+        "date": "2024-05-19T22:09:54.621Z"
+      },
+      {
+        "text": "jadfs [a-MtxYMlFPBD84A2AAAJ] joined the room",
+        "userId": "a-MtxYMlFPBD84A2AAAJ",
+        "date": "2024-05-19T22:10:11.629Z"
+      },
+      {
+        "text": "jadfs [a-MtxYMlFPBD84A2AAAJ] joined the room",
+        "userId": "a-MtxYMlFPBD84A2AAAJ",
+        "date": "2024-05-19T22:10:21.615Z"
+      },
+      {
+        "text": "jadfs [a-MtxYMlFPBD84A2AAAJ] joined the room",
+        "userId": "a-MtxYMlFPBD84A2AAAJ",
+        "date": "2024-05-19T22:10:34.623Z"
+      },
+      {
+        "text": "jadfs [a-MtxYMlFPBD84A2AAAJ] joined the room",
+        "userId": "a-MtxYMlFPBD84A2AAAJ",
+        "date": "2024-05-19T22:10:54.624Z"
+      },
+      {
+        "text": "jadfs [a-MtxYMlFPBD84A2AAAJ] joined the room",
+        "userId": "a-MtxYMlFPBD84A2AAAJ",
+        "date": "2024-05-19T22:22:32.645Z"
+      },
+      {
+        "text": "jadfs [a-MtxYMlFPBD84A2AAAJ] joined the room",
+        "userId": "a-MtxYMlFPBD84A2AAAJ",
+        "date": "2024-05-19T22:23:50.624Z"
+      },
+      {
+        "text": "jadfs [a-MtxYMlFPBD84A2AAAJ] joined the room",
+        "userId": "a-MtxYMlFPBD84A2AAAJ",
+        "date": "2024-05-19T22:31:19.618Z"
+      },
+      {
+        "text": "jadfs [a-MtxYMlFPBD84A2AAAJ] joined the room",
+        "userId": "a-MtxYMlFPBD84A2AAAJ",
+        "date": "2024-05-19T22:31:30.623Z"
+      },
+      {
+        "text": "jadfs [a-MtxYMlFPBD84A2AAAJ] joined the room",
+        "userId": "a-MtxYMlFPBD84A2AAAJ",
+        "date": "2024-05-19T22:31:44.615Z"
+      },
+      {
+        "text": "jadfs [a-MtxYMlFPBD84A2AAAJ] joined the room",
+        "userId": "a-MtxYMlFPBD84A2AAAJ",
+        "date": "2024-05-19T22:31:46.625Z"
+      },
+      {
+        "text": "jadfs [W-hh47grUDCcOmV4AAAP] joined the room",
+        "userId": "W-hh47grUDCcOmV4AAAP",
+        "date": "2024-05-19T22:33:48.014Z"
+      },
+      {
+        "text": "jadfs [W-hh47grUDCcOmV4AAAP] joined the room",
+        "userId": "W-hh47grUDCcOmV4AAAP",
+        "date": "2024-05-19T22:36:05.617Z"
+      },
+      {
+        "text": "jadfs [W-hh47grUDCcOmV4AAAP] joined the room",
+        "userId": "W-hh47grUDCcOmV4AAAP",
+        "date": "2024-05-19T22:36:20.625Z"
+      },
+      {
+        "text": "jadfs [W-hh47grUDCcOmV4AAAP] joined the room",
+        "userId": "W-hh47grUDCcOmV4AAAP",
+        "date": "2024-05-19T22:37:46.623Z"
+      },
+      {
+        "text": "jadfs [W-hh47grUDCcOmV4AAAP] joined the room",
+        "userId": "W-hh47grUDCcOmV4AAAP",
+        "date": "2024-05-19T22:43:38.614Z"
+      },
+      {
+        "text": "jadfs [W-hh47grUDCcOmV4AAAP] joined the room",
+        "userId": "W-hh47grUDCcOmV4AAAP",
+        "date": "2024-05-19T22:43:55.617Z"
+      },
+      {
+        "text": "jadfs [W-hh47grUDCcOmV4AAAP] joined the room",
+        "userId": "W-hh47grUDCcOmV4AAAP",
+        "date": "2024-05-19T22:44:27.614Z"
+      },
+      {
+        "text": "jadfs [W-hh47grUDCcOmV4AAAP] joined the room",
+        "userId": "W-hh47grUDCcOmV4AAAP",
+        "date": "2024-05-19T22:44:29.628Z"
+      },
+      {
+        "text": "jadfs [W-hh47grUDCcOmV4AAAP] joined the room",
+        "userId": "W-hh47grUDCcOmV4AAAP",
+        "date": "2024-05-19T22:44:44.618Z"
+      },
+      {
+        "text": "jadfs [W-hh47grUDCcOmV4AAAP] joined the room",
+        "userId": "W-hh47grUDCcOmV4AAAP",
+        "date": "2024-05-19T22:45:46.634Z"
+      },
+      {
+        "text": "jadfs [W-hh47grUDCcOmV4AAAP] joined the room",
+        "userId": "W-hh47grUDCcOmV4AAAP",
+        "date": "2024-05-19T22:46:15.621Z"
+      },
+      {
+        "text": "jadfs [W-hh47grUDCcOmV4AAAP] joined the room",
+        "userId": "W-hh47grUDCcOmV4AAAP",
+        "date": "2024-05-19T22:47:20.624Z"
+      },
+      {
+        "text": "jadfs [W-hh47grUDCcOmV4AAAP] joined the room",
+        "userId": "W-hh47grUDCcOmV4AAAP",
+        "date": "2024-05-19T22:47:37.619Z"
+      },
+      {
+        "text": "jadfs [W-hh47grUDCcOmV4AAAP] joined the room",
+        "userId": "W-hh47grUDCcOmV4AAAP",
+        "date": "2024-05-19T22:47:59.617Z"
+      },
+      {
+        "text": "jadfs [W-hh47grUDCcOmV4AAAP] joined the room",
+        "userId": "W-hh47grUDCcOmV4AAAP",
+        "date": "2024-05-19T22:48:06.618Z"
+      },
+      {
+        "text": "jadfs [W-hh47grUDCcOmV4AAAP] joined the room",
+        "userId": "W-hh47grUDCcOmV4AAAP",
+        "date": "2024-05-19T22:48:40.625Z"
+      },
+      {
+        "text": "jadfs [W-hh47grUDCcOmV4AAAP] joined the room",
+        "userId": "W-hh47grUDCcOmV4AAAP",
+        "date": "2024-05-19T22:49:12.624Z"
+      },
+      {
+        "text": "jadfs [W-hh47grUDCcOmV4AAAP] joined the room",
+        "userId": "W-hh47grUDCcOmV4AAAP",
+        "date": "2024-05-19T22:49:14.619Z"
+      },
+      {
+        "text": "jadfs [W-hh47grUDCcOmV4AAAP] joined the room",
+        "userId": "W-hh47grUDCcOmV4AAAP",
+        "date": "2024-05-19T22:56:46.629Z"
+      },
+      {
+        "text": "jadfs [W-hh47grUDCcOmV4AAAP] joined the room",
+        "userId": "W-hh47grUDCcOmV4AAAP",
+        "date": "2024-05-19T22:56:58.625Z"
+      },
+      {
+        "text": "jadfs [W-hh47grUDCcOmV4AAAP] joined the room",
+        "userId": "W-hh47grUDCcOmV4AAAP",
+        "date": "2024-05-19T23:01:02.624Z"
+      },
+      {
+        "text": "jadfs [W-hh47grUDCcOmV4AAAP] joined the room",
+        "userId": "W-hh47grUDCcOmV4AAAP",
+        "date": "2024-05-19T23:01:20.625Z"
+      },
+      {
+        "text": "jadfs [W-hh47grUDCcOmV4AAAP] joined the room",
+        "userId": "W-hh47grUDCcOmV4AAAP",
+        "date": "2024-05-19T23:01:36.619Z"
+      },
+      {
+        "text": "jadfs [W-hh47grUDCcOmV4AAAP] joined the room",
+        "userId": "W-hh47grUDCcOmV4AAAP",
+        "date": "2024-05-19T23:03:17.622Z"
+      },
+      {
+        "text": "jadfs [5Y2H4eEslUWV4sOhAAAX] joined the room",
+        "userId": "5Y2H4eEslUWV4sOhAAAX",
+        "date": "2024-05-19T23:30:07.133Z"
+      },
+      {
+        "text": "jadfs [DP6PgnlEJcX8cXIyAAAZ] joined the room",
+        "userId": "DP6PgnlEJcX8cXIyAAAZ",
+        "date": "2024-05-19T23:30:16.830Z"
+      },
+      {
+        "text": "jadfs [fla6Ajv2_TeQqO7JAAAd] joined the room",
+        "userId": "fla6Ajv2_TeQqO7JAAAd",
+        "date": "2024-05-19T23:31:07.348Z"
+      },
+      {
+        "text": "jadfs [Ot0D-JGSHXhvr5dRAAAf] joined the room",
+        "userId": "Ot0D-JGSHXhvr5dRAAAf",
+        "date": "2024-05-19T23:31:59.684Z"
+      },
+      {
+        "text": "jadfs [ajpXn9rYEi82jQssAAAh] joined the room",
+        "userId": "ajpXn9rYEi82jQssAAAh",
+        "date": "2024-05-19T23:32:10.303Z"
+      },
+      {
+        "text": "jadfs [lWfQ_TdwPYpIq8TRAAAj] joined the room",
+        "userId": "lWfQ_TdwPYpIq8TRAAAj",
+        "date": "2024-05-19T23:32:23.292Z"
+      },
+      {
+        "text": "jadfs [srEA2Z80p63S6BCeAAAl] joined the room",
+        "userId": "srEA2Z80p63S6BCeAAAl",
+        "date": "2024-05-19T23:34:24.696Z"
+      },
+      {
+        "text": "jadfs [RXsyDDJCPqPixWXwAAAn] joined the room",
+        "userId": "RXsyDDJCPqPixWXwAAAn",
+        "date": "2024-05-19T23:35:30.908Z"
+      },
+      {
+        "text": "jadfs [8V2hugBr6K4b9LiAAAAp] joined the room",
+        "userId": "8V2hugBr6K4b9LiAAAAp",
+        "date": "2024-05-19T23:37:53.010Z"
+      }
+    ],
+    "roomName": "AnotehrRoom",
+    "roomId": "Sun May 19 2024",
+    "users": [
+      {
+        "userName": "jadfs",
+        "avatar": "",
+        "userId": "8V2hugBr6K4b9LiAAAAp",
+        "voted": false,
+        "value": "?"
+      }
+    ]
+  },
+  {
+    "settings": {
+      "showVotes": false
+    },
+    "playCards": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "messages": [
+      {
+        "text": "qwe created the room sad",
+        "userId": "n4bQv80MrTvZZTVnAAAF",
+        "date": "2024-05-21T10:54:09.716Z"
+      },
+      {
+        "text": "assa",
+        "userId": "n4bQv80MrTvZZTVnAAAF",
+        "date": "2024-05-21T10:54:21.212Z"
+      },
+      {
+        "text": "test",
+        "userId": "n4bQv80MrTvZZTVnAAAF",
+        "date": "2024-05-21T10:54:29.171Z"
+      },
+      {
+        "text": "qwe [n4bQv80MrTvZZTVnAAAF] joined the room",
+        "userId": "n4bQv80MrTvZZTVnAAAF",
+        "date": "2024-05-21T10:55:17.866Z"
+      },
+      {
+        "text": "qwe [WvKXGXKwYO1ugb71AAAH] joined the room",
+        "userId": "WvKXGXKwYO1ugb71AAAH",
+        "date": "2024-05-21T10:55:25.315Z"
+      },
+      {
+        "text": "qwe [hv_wjCUqeBxI27bwAAAJ] joined the room",
+        "userId": "hv_wjCUqeBxI27bwAAAJ",
+        "date": "2024-05-21T10:55:47.254Z"
+      },
+      {
+        "text": "qwe [hv_wjCUqeBxI27bwAAAJ] joined the room",
+        "userId": "hv_wjCUqeBxI27bwAAAJ",
+        "date": "2024-05-21T10:55:54.822Z"
+      },
+      {
+        "text": "qwe [hv_wjCUqeBxI27bwAAAJ] joined the room",
+        "userId": "hv_wjCUqeBxI27bwAAAJ",
+        "date": "2024-05-21T10:57:02.336Z"
+      },
+      {
+        "text": "qwe [Us-IkTe8tnz559iAAAAN] joined the room",
+        "userId": "Us-IkTe8tnz559iAAAAN",
+        "date": "2024-05-21T10:58:18.385Z"
+      }
+    ],
+    "roomName": "sad",
+    "roomId": "Tue May 21 2024",
+    "users": []
+  },
+  {
+    "settings": {
+      "showVotes": false
+    },
+    "playCards": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "messages": [
+      {
+        "text": "sd created the room sd",
+        "userId": "Y3PlxXx0ujW9kxznAAAR",
+        "date": "2024-05-21T11:12:02.483Z"
+      },
+      {
+        "text": "fe",
+        "userId": "Y3PlxXx0ujW9kxznAAAR",
+        "date": "2024-05-21T11:12:14.205Z"
+      },
+      {
+        "text": "asdfdfas",
+        "userId": "MpuhVcW_ZrTyGAQZAAAU",
+        "date": "2024-05-21T12:06:11.585Z"
+      }
+    ],
+    "roomName": "sd",
+    "roomId": "Tue May 21 2024",
+    "users": []
+  }
+]

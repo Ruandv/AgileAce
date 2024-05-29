@@ -1,17 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
-import "./ChatRoom.css";
-import ChatRoomService from "../../services/chatRoom.service";
+import React, { useEffect, useRef, useState } from 'react';
+import './ChatRoom.css';
+import ChatRoomService from '../../services/chatRoom.service';
+import { useChatMessages, useSocket } from '../../contexts/SocketContext';
 
 function ChatRoom() {
+  const socket = useSocket();
   const message = useRef<HTMLInputElement>(null);
-  const [chat, setChat] = useState([]);
-  const chatRoomService = ChatRoomService.getInstance();
+
+  const chatRoomService = ChatRoomService.getInstance(socket);
+  const messages = useChatMessages();
+
   useEffect(() => {
-    const doWork = async () => {
-      const messages = await chatRoomService.getMessages();
-      setChat(messages);
-    };
-    doWork();
+
   }, []);
 
   const submitMessage = (e: React.FormEvent) => {
@@ -21,6 +21,53 @@ function ChatRoom() {
       message.current.value = "";
     }
   };
+
+  const DIVISIONS = [
+    { amount: 60, name: "seconds" },
+    { amount: 60, name: "minutes" },
+    { amount: 24, name: "hours" },
+    { amount: 7, name: "days" },
+    { amount: 4.34524, name: "weeks" },
+    { amount: 12, name: "months" },
+    { amount: Number.POSITIVE_INFINITY, name: "years" },
+  ]
+
+  const renderMessages = () => {
+    const getRTF = (date: Date): React.ReactNode => {
+      // convert the date to Intl.RelativeTimeFormat
+      const formatter = new Intl.RelativeTimeFormat(undefined, {
+        numeric: "auto",
+      })
+
+      let duration = (new Date(date).getTime() - new Date().getTime()) / 1000
+
+      for (let i = 0; i < DIVISIONS.length; i++) {
+        const division = DIVISIONS[i]
+        if (Math.abs(duration) < division.amount) {
+          return formatter.format(Math.round(duration), (division.name as any))
+        }
+        duration /= division.amount
+      }
+      return 'long ago';
+    }
+    return messages.map((msg, index) => (
+      <div key={index} className="p-4 rounded-lg bg-white shadow">
+        <div className="flex">
+          <div className="w-1/4 m-2">
+
+            <img className="card-img-top" src="https://i.pravatar.cc/200" width="100%" alt="Card image cap"></img>
+          </div>
+          <div className="w-3/4 m-2">
+            <h3 className=" font-bold">{msg.userId}</h3>
+            <small>{getRTF(msg.date)}</small>
+          </div>
+        </div>
+        <div className="m-2">
+          <p className="text-gray-800">{msg.text}</p>
+        </div>
+      </div>
+    ))
+  }
 
   return (
     <div>
@@ -32,23 +79,10 @@ function ChatRoom() {
             </h1>
           </div>
           <div className="chat-history space-y-4">
-            {chat.map((msg: any, index) => (
-              <div key={index} className="p-4 rounded-lg bg-white shadow">
-                <div className="flex">
-                  <div className="w-1/4 m-2">
-                    
-                    <img className="card-img-top" src="https://i.pravatar.cc/200" width="100%" alt="Card image cap"></img>
-                  </div>
-                  <div className="w-3/4 m-2">
-                    <h3 className=" font-bold">John</h3>
-                    <small>2024-05-17 22:05</small>
-                  </div>
-                </div>
-                <div className="m-2">
-                    <p className="text-gray-800">{msg.text}</p>
-                  </div>
-              </div>
-            ))}
+            {/* {chat.map((msg: any, index) => (
+              
+            ))} */}
+            {renderMessages()}
           </div>
         </div>
         <form
@@ -62,14 +96,14 @@ function ChatRoom() {
               className="flex-grow rounded-lg border-gray-300 p-2 blcok"
               placeholder="Type your message"
             />
-            
+
           </div>
           <button
-              type="submit"
-              className="bg-blue-500 text-white rounded-sm px-4 py-2"
-            >
-              Send
-            </button>
+            type="submit"
+            className="bg-blue-500 text-white rounded-sm px-4 py-2"
+          >
+            Send
+          </button>
         </form>
       </div>
     </div>

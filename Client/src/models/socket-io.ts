@@ -10,7 +10,7 @@ export interface ServerToClientEvents {
 //The ones declared in the ClientToServerEvents interface are used when receiving events:
 export interface ClientToServerEvents {
   join: (roomName: string, userName: string) => void;
-  chat: ( roomName:string, msg: string) => void;
+  chat: (msg: string) => void;
 }
 
 //And finally, the SocketData type is used to type the socket.data attribute (added in socket.io@4.4.0):

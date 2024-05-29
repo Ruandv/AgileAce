@@ -1,22 +1,24 @@
 // App.jsx
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NewGame from './pages/newRoom/NewRoom';
-import ChatRoom from './components/chatroom/ChatRoom';
- import './App.css';
-import { SocketProvider } from './contexts/SocketContext';
+import './App.css';
 import PlayRoom from './pages/playRoom/PlayRoom';
+import { SocketContextProvider } from './contexts/SocketContext';
+import { RoomContextProvider } from './contexts/roomSettingsContext';
+
 const App = () => {
   return (
-    <SocketProvider url="http://localhost:3000">
-    <Router>
-      <Routes>
-        <Route path="/newRoom" element={<NewGame />} />
-        <Route path="/chat" element={<PlayRoom/>} />
-        <Route path="/" element={<NewGame />} />
-      </Routes>
-    </Router>
- </SocketProvider>
+    <SocketContextProvider>
+      <RoomContextProvider>
+        <Router>
+          <Routes>
+            <Route path="/newRoom" element={<NewGame />} />
+            <Route path="/chat" element={<PlayRoom />} />
+            <Route path="/" element={<NewGame />} />
+          </Routes>
+        </Router>
+      </RoomContextProvider>
+    </SocketContextProvider>
   );
 };
 
