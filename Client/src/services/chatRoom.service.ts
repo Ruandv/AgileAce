@@ -49,6 +49,28 @@ class ChatRoomService {
     ChatRoomService.roomName = userName;
   }
 
+  getPlayCards() {
+    const roomSettings = localStorage.getItem('roomSettings');
+    if (roomSettings) {
+      const data = JSON.parse(roomSettings);
+      return data.playCards;
+    }
+    else {
+      window.location.href = '/newRoom';
+    }
+  }
+
+  getUserCount() {
+    const roomSettings = localStorage.getItem('roomSettings');
+    if (roomSettings) {
+      const data = JSON.parse(roomSettings);
+      return data.users.length;
+    }
+    else {
+      window.location.href = '/newRoom';
+    }
+  }
+
   public static getRoomName() {
     return localStorage.getItem("roomName");
   }

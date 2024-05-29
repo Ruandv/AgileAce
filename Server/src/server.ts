@@ -59,6 +59,7 @@ io.on('connection', (socket: Socket) => {
       socket.join(roomName);
       room = { 
         settings: { showVotes: false },
+        playCards: [1,2,3,4],
         messages: [{
           text: `${userName} created the room ${roomName}`,
           userId: socket.id,
@@ -100,6 +101,7 @@ io.on('connection', (socket: Socket) => {
     if (!room) {
       room = {
         settings: { showVotes: false },
+        playCards: [1,2,3,4],
         messages: [{
           text: `${userName} created the room ${roomName}`,
           userId: socket.id,
