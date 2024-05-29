@@ -1,27 +1,24 @@
-import React, { useEffect, useRef, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useEffect, useRef, useState } from 'react';
 import { useRoom } from '../../contexts/roomSettingsContext';
 import ChatRoomService from '../../services/chatRoom.service';
 import { useChatMessages, useSocket } from '../../contexts/SocketContext';
 import ChatRoom from '../../components/chatroom/ChatRoom';
 import PokerCard from '../../components/pokerCard/PokerCard';
-import { User } from '../../models/user';
 import './PlayRoom.css';
 import Modal from '../../components/modal/modal';
 
 const PlayRoom = () => {
-    const room = useRoom();
     const socket = useSocket();
-    const messages = useChatMessages();
     const [connectedUsers, setConnectedUsers] = useState<string>('');
-    const [selectedCard, setSelectedCard] = useState<string>('0');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [playCards, setPlayCards] = useState<number[]>([]);
 
     let api = useRef<ChatRoomService>();
     useEffect(() => {
-      
         socket.on("usersCount", (msg: string) => {
             setConnectedUsers(msg);
+            console.log("usersCount: " + connectedUsers);
         });
         // check the querystring to retrieve the room name
         const roomName = new URLSearchParams(window.location.search).get('roomName') ?? ChatRoomService.getRoomName();
@@ -35,7 +32,7 @@ const PlayRoom = () => {
             setPlayCards( api.current!.getPlayCards());
 
         }
-    }, []);
+    }, [connectedUsers, socket]);
 
     const modalProps = {
         title: "Change User Name",
@@ -63,13 +60,6 @@ const PlayRoom = () => {
                 data-modal-hide="default-modal" type="button" className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Decline</button>
         </>
     };
-    {/* <div id='toolbar' className="bg-red-500 flex flex-col items-center justify-center min-h-[3em]">toolbar
-
-
-
-</div> */}
- 
-
     const [activeButton, setIsActiveButton] = useState(0);
 
     function toggleButton(buttonIndex: number): void {

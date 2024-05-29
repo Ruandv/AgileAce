@@ -8,7 +8,7 @@ import React, {
     Context,
     useEffect,
 } from 'react';
-import { useChatMessages, useChatRoom } from './SocketContext';
+import { useChatRoom } from './SocketContext';
 import { ChatMessage } from '../models/chatMessage';
 import { User } from '../models/user';
 import { Settings } from '../models/settings';

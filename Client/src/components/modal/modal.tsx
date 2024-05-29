@@ -1,6 +1,5 @@
 // https://www.dhiwise.com/post/mastering-react-slot-patterns-for-flexible-ui-components
 
-import React, { useRef, useState } from 'react';
 import './modal.css';
 
 export interface modalProps {
