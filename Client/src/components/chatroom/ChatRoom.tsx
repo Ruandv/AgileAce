@@ -21,6 +21,64 @@ function ChatRoom() {
       message.current.value = "";
     }
   };
+  // {
+  //   <div key={index} className="flex items-center space-x-4">
+  //     <div className="font-semibold">{msg.text}</div>
+  //   </div>
+  // ))}
+
+  // <form className="border-t border-gray-300 p-4 bg-white" onSubmit={submitMessage}>
+  //         <div className="flex space-x-4">
+  //           <input
+  //             id="messageInput"
+  //             ref={message}
+  //             className="flex-grow rounded-lg border-gray-300 p-2"
+  //             placeholder="Type your message"
+  //           />
+  //           <button type="submit" className="bg-blue-500 text-white rounded-lg px-4 py-2">Send</button>
+  //         </div>
+  //       </form>
+
+  const DIVISIONS = [
+    { amount: 60, name: "seconds" },
+    { amount: 60, name: "minutes" },
+    { amount: 24, name: "hours" },
+    { amount: 7, name: "days" },
+    { amount: 4.34524, name: "weeks" },
+    { amount: 12, name: "months" },
+    { amount: Number.POSITIVE_INFINITY, name: "years" },
+  ]
+
+  const renderMessages = () => {
+    const getRTF = (date: Date): React.ReactNode => {
+      // convert the date to Intl.RelativeTimeFormat
+      const formatter = new Intl.RelativeTimeFormat(undefined, {
+        numeric: "auto",
+      })
+
+      let duration = (new Date(date).getTime() - new Date().getTime()) / 1000
+
+      for (let i = 0; i < DIVISIONS.length; i++) {
+        const division = DIVISIONS[i]
+        if (Math.abs(duration) < division.amount) {
+          return formatter.format(Math.round(duration), (division.name as any))
+        }
+        duration /= division.amount
+      }
+      return 'long ago';
+    }
+    return messages.map((msg, index) => (
+      <li className="border-b border:gray-100 dark:border-gray-600">
+        <a href="#" className="flex items-center justify-center w-full px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800">
+          <img className="me-3 rounded-full w-11 h-11" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Leslie Livingston Avatar"></img>
+
+          <div>
+            <p className="text-sm text-gray-500 dark:text-gray-400"><span className="font-medium text-gray-900 dark:text-white">{msg.userId}</span> : what do you say?</p>
+            <span className="text-xs text-blue-600 dark:text-blue-500">{getRTF(msg.date)}</span>
+          </div>
+        </a>
+      </li>));
+  }
 
   const DIVISIONS = [
     { amount: 60, name: "seconds" },
@@ -65,6 +123,7 @@ function ChatRoom() {
         <div className="m-2">
           <p className="text-gray-800">{msg.text}</p>
         </div>
+
       </div>
     ))
   }
