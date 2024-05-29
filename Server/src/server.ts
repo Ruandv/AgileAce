@@ -32,7 +32,7 @@ const io = new Server<
 const rooms: ChatRoom[] = [];
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'newGame.html'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 io.on('connection', (socket: Socket) => {

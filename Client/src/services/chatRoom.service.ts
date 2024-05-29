@@ -60,15 +60,9 @@ class ChatRoomService {
     }
   }
 
-  getUserCount() {
-    const roomSettings = localStorage.getItem('roomSettings');
-    if (roomSettings) {
-      const data = JSON.parse(roomSettings);
-      return data.users.length;
-    }
-    else {
-      window.location.href = '/newRoom';
-    }
+  public static setUserName(userName: string) {
+    sessionStorage.setItem("userName", userName);
+    ChatRoomService.roomName = userName;
   }
 
   public static getRoomName() {
