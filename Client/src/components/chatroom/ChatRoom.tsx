@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef} from 'react';
 import './ChatRoom.css';
 import ChatRoomService from '../../services/chatRoom.service';
 import { useChatMessages, useSocket } from '../../contexts/SocketContext';
