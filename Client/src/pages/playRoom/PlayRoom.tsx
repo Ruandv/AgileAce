@@ -1,25 +1,21 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useRef, useState } from 'react';
-import { useRoom } from '../../contexts/roomSettingsContext';
 import ChatRoomService from '../../services/chatRoom.service';
-import { useChatMessages, useSocket } from '../../contexts/SocketContext';
+import { useSocket } from '../../contexts/SocketContext';
 import ChatRoom from '../../components/chatroom/ChatRoom';
 import PokerCard from '../../components/pokerCard/PokerCard';
 import './PlayRoom.css';
 import Modal from '../../components/modal/modal';
+import { useRoom } from '../../contexts/roomSettingsContext';
+import { User } from '../../models/user';
 
 const PlayRoom = () => {
     const socket = useSocket();
-    const [connectedUsers, setConnectedUsers] = useState<string>('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [playCards, setPlayCards] = useState<number[]>([]);
-
+    const roomCtx = useRoom();
     let api = useRef<ChatRoomService>();
     useEffect(() => {
-        socket.on("usersCount", (msg: string) => {
-            setConnectedUsers(msg);
-            console.log("usersCount: " + connectedUsers);
-        });
         // check the querystring to retrieve the room name
         const roomName = new URLSearchParams(window.location.search).get('roomName') ?? ChatRoomService.getRoomName();
         const userName = new URLSearchParams(window.location.search).get('userName') ?? ChatRoomService.getUserName();
@@ -29,9 +25,9 @@ const PlayRoom = () => {
         else {
             api.current = ChatRoomService.getInstance(socket, roomName);
             api.current.join(roomName, userName);
-            setPlayCards( api.current!.getPlayCards());
+            setPlayCards(roomCtx.playCards);
         }
-    }, [connectedUsers, socket]);
+    }, [socket]);
 
     const modalProps = {
         title: "Change User Name",
@@ -47,7 +43,8 @@ const PlayRoom = () => {
         actions: <>
             <button onClick={() => {
                 // get the first_name value
-                const userName = (document.getElementById('first_name') as HTMLInputElement).value;
+                const userName = (document.getElementById('floating_filled') as HTMLInputElement).value;
+                api.current?.userNameUpdated(userName);
                 sessionStorage.setItem("userName", userName);
                 setIsModalOpen(false)
             }
@@ -61,33 +58,17 @@ const PlayRoom = () => {
     };
     const [activeButton, setIsActiveButton] = useState(0);
 
-    function toggleButton(buttonIndex: number): void {
-        const buttons: NodeListOf<HTMLButtonElement> = document.querySelectorAll(
-            '[class^="votebutton"]'
-        );
-        const currentButton: HTMLButtonElement = buttons[buttonIndex - 1];
-
-        if (
-            activeButton === buttonIndex &&
-            currentButton.classList.contains("slide-up")
-        ) {
-            // Slide down the button if already in "slide-up" position
-            currentButton.classList.remove("slide-up");
-            setIsActiveButton(0);
-        } else {
-            // Slide down previous button and slide up current button
-            if (activeButton !== 0) {
-                buttons[activeButton - 1].classList.remove("slide-up");
-            }
-            currentButton.classList.add("slide-up");
-            setIsActiveButton(buttonIndex);
+    function toggleButton(user: User, cardIndex: number): void {
+        if(user.value === cardIndex.toString()) {
+            cardIndex = -1;
         }
+        api.current?.voted(cardIndex);
         console.log("active button = " + activeButton);
     }
 
     return (
         <>
-        <button className="btn" onClick={() => setIsModalOpen(true)}>Set UserName</button>
+            <button className="btn" onClick={() => setIsModalOpen(true)}>Set UserName</button>
             <nav className="bg-white border-gray-200 dark:bg-gray-900">
                 <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                     <a href="https://flowbite.com/" className="flex items-center space-x-3 rtl:space-x-reverse">
@@ -109,15 +90,60 @@ const PlayRoom = () => {
                             id="right"
                             className="flex items-center justify-center"
                         >
-                            <span className="flex flex-row m-5">
-                                {playCards.map((i) => (
-                                    <PokerCard
-                                        key={i}
-                                        display={i.toString()}
-                                        onClick={() => toggleButton(Number(i))}
-                                    />
-                                ))}
-                            </span>
+                            <div>
+                                {roomCtx.users.map((user, i) => {
+                                    if (ChatRoomService.getUserId() !== user.userId) {
+                                        return (
+                                            <div key={`${user.userId}_${i}`} className='flex flex-row'>
+                                                <div className="flex flex-col items-center">
+                                                    <img
+                                                        className="rounded-full h-16 w-16"
+                                                        src="https://i.pravatar.cc/200"
+                                                        alt="user"
+                                                    />
+                                                    <p className="text-sm font-semibold text-gray-800">
+                                                        {user.userName}yyyy
+                                                    </p>
+                                                </div>
+                                                <span className="flex flex-row m-5">
+
+                                                    <PokerCard
+                                                        key={`${user.userId}_${i}_${0}`}
+                                                        display={'?'}
+                                                        isActive={user.voted === true}
+                                                    />
+                                                </span>
+                                            </div>);
+                                    }
+                                    else {
+                                        // this is me and should be shown in the bottom center
+                                        return (
+                                            <div key={`${user.userId}_${i}`} className='flex flex-row'>
+                                                <div className="flex flex-col items-center">
+                                                    <img
+                                                        className="rounded-full h-16 w-16"
+                                                        src="https://i.pravatar.cc/200"
+                                                        alt="user"
+                                                    />
+                                                    <p className="text-sm font-semibold text-gray-800">
+                                                        {user.userName}
+                                                    </p>
+                                                </div>
+                                                <span className="flex flex-row m-5">
+                                                    {playCards?.map((card, idx) => (
+                                                        <PokerCard
+                                                            key={`${user.userId}_${i}_${idx}`}
+                                                            display={card.toString()}
+                                                            isActive={card === Number(user.value)}
+                                                            onClick={() => toggleButton(user, card)}
+                                                        />
+                                                    ))}
+                                                </span>
+                                            </div>);
+                                    }
+                                })}
+                            </div>
+
                         </div>
                     </div>
                 </div>

@@ -18,6 +18,7 @@ export interface Room {
     roomName: string;
     users: User[];
     messages: ChatMessage[];
+    playCards: number[];
     settings: Settings;
     me: User;
 }
@@ -32,6 +33,7 @@ export interface RoomContextType {
 export const defaultRoom: Room = {
     roomName: "default room",
     users: [],
+    playCards: [1, 2, 3, 4,],
     messages: [{
         text: 'Welcome to the chat!',
         userId: 'test',
@@ -59,13 +61,13 @@ export const RoomContextProvider = ({ children }: RoomContextProviderProps): JSX
     const [room, setRoom] = useState<Room>(defaultRoom);
     const chatRoom = useChatRoom();
     useEffect(() => {
-        if(chatRoom.roomId === '') return;
+        if (chatRoom.roomId === '') return;
         const data = {
             roomName: chatRoom.roomName,
             users: chatRoom.users,
             messages: chatRoom.messages,
             settings: chatRoom.settings,
-            me: chatRoom.users.find(u => u.userId === '3')?? {} as User
+            me: chatRoom.users.find(u => u.userId === '3') ?? {} as User
         };
         setRoom(data as Room)
     }, [chatRoom]);

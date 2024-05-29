@@ -19,7 +19,7 @@ app.use(express.json());
 const server = http.createServer(app);
 
 // https://socket.io/docs/v4/typescript/
-const io = new Server<
+const io = new Server< 
   ClientToServerEvents,
   ServerToClientEvents,
   SocketData
@@ -39,7 +39,7 @@ app.get('/', (req, res) => {
 
 io.on('connection', (socket: Socket) => {
   if (socket.recovered) {
-    console.log('recovered');
+    console.log('recovered'); 
   }
   else {
   }
@@ -48,6 +48,31 @@ io.on('connection', (socket: Socket) => {
     const roomData = JSON.parse(data);
     rooms.push(...roomData);
   };
+
+  socket.on('voted', (card: number) => {
+    let userId = socket.handshake.headers['my-user-id']?.toString();
+    let room = rooms.find((room) => room.users.find((user) => user.userId === userId));
+    const user:User = room?.users.find((user) => user.userId === userId) as User;
+    user.value = card.toString(); 
+    user.voted = card >= 0;
+    io.emit('updateSettings', JSON.stringify(room));
+    fs.writeFileSync('rooms.json', JSON.stringify(rooms, null, 2));
+  });
+
+  socket.on('userNameUpdated',(roomName:string, userName:string)=>{
+    let userId = socket.handshake.headers['my-user-id']?.toString();
+    let room = getRoom(roomName);
+    const user:User = room?.users.find((user) => user.userId === userId) as User;
+    
+    room!.messages.push({
+      text: `${user.userName} is now known as ${userName}`,
+      userId: userId!,
+      date: new Date()
+    });
+    user.userName = userName;
+    io.emit('updateSettings', JSON.stringify(room));
+    fs.writeFileSync('rooms.json', JSON.stringify(rooms, null, 2));
+  });
 
   socket.on('chat', (roomName: string, msg: string) => {
     //read the socket headers to retrieve the user name
@@ -75,14 +100,12 @@ io.on('connection', (socket: Socket) => {
   });
 
   socket.on('join', async (roomName, userName) => {
-    // remove the current socket from all rooms
     socket.rooms.forEach((room) => {
       socket.leave(room);
     });
 
     socket.join(roomName);
     const val = io.sockets.adapter.rooms.get(roomName);
-    socket.in(roomName).emit('usersCount', val?.size.toString());
     let userId = socket.handshake.headers['my-user-id']?.toString();
     if(!userId || userId===''){
       userId = uuidv4();
@@ -104,6 +127,8 @@ io.on('connection', (socket: Socket) => {
         users: [{
           userName: userName,
           avatar: "",
+          value: "?",
+          voted: false,
           userId: userId
         } as User]
       };
@@ -115,13 +140,15 @@ io.on('connection', (socket: Socket) => {
         userId: userId,
         date: new Date()
       });
-      room.users.push({
-        userName: userName,
-        avatar: "",
-        userId: userId,
-        voted: false,
-        value: "?"
-      });
+      if(!socket.handshake.headers['my-user-id']){
+        room.users.push({
+          userName: userName,
+          avatar: "",
+          userId: userId,
+          voted: false,
+          value: "?"
+        });
+      }
     }
     console.log(JSON.stringify(room, null, 2));
     logRooms('join');

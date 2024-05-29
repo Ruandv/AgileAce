@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import './ChatRoom.css';
 import ChatRoomService from '../../services/chatRoom.service';
-import { useChatMessages, useSocket } from '../../contexts/SocketContext';
+import { useChatMessages, useChatRoom, useSocket } from '../../contexts/SocketContext';
+import { useRoom } from '../../contexts/roomSettingsContext';
 
 function ChatRoom() {
   const socket = useSocket();
@@ -9,7 +10,7 @@ function ChatRoom() {
 
   const chatRoomService = ChatRoomService.getInstance(socket);
   const messages = useChatMessages();
-
+  const room = useRoom();
   useEffect(() => {
 
   }, []);
@@ -50,6 +51,11 @@ function ChatRoom() {
       }
       return 'long ago';
     }
+    function getUserName(userId: string): React.ReactNode {
+      const user = room.users.find((user) => user.userId === userId);
+      return user?.userName ?? 'Unknown';
+    }
+
     return messages.map((msg, index) => (
       <div key={index} className="p-4 rounded-lg bg-white shadow">
         <div className="flex">
@@ -57,14 +63,13 @@ function ChatRoom() {
             <img className="card-img-top" src="https://i.pravatar.cc/200" width="100%" alt=""></img>
           </div>
           <div className="w-3/4 m-2">
-            <h3 className=" font-bold">{msg.userId}</h3>
+            <h3 className=" font-bold">{getUserName(msg.userId)}</h3>
             <small>{getRTF(msg.date)}</small>
           </div>
         </div>
         <div className="m-2">
           <p className="text-gray-800">{msg.text}</p>
         </div>
-
       </div>
     ))
   }
@@ -95,7 +100,7 @@ function ChatRoom() {
         <div className="px-6 py-4">
           <div className="border-b border-gray-300 mb-6 pb-2 flex justify-between items-center">
             <h1 className="text-3xl font-semibold">
-              Chat Room ({chatRoomService.getUserCount()})
+              Chat Room ({room.users.length.toString()} users)
             </h1>
           </div>
           <div className="chat-history flex flex-col space-y-4  flex-col-reverse">
