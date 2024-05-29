@@ -28,7 +28,7 @@ class ChatRoomService {
     if (!roomName) {
       roomName = ChatRoomService.getRoomName()!;
     }
-    console.log('getting service instance for' + roomName);
+    console.log('getting service instance for ' + roomName);
     if (!ChatRoomService.instances) {
       console.log('Creating a new instance: ' + roomName);
       ChatRoomService.instance = new ChatRoomService(roomName!, socket);
@@ -72,8 +72,8 @@ class ChatRoomService {
   }
 
   public static getRoomName() {
-    // return localStorage.getItem("roomName");
-    return ChatRoomService.roomName;
+    this.roomName = localStorage.getItem("roomName")!;
+    return this.roomName;
   }
 
   public static getUserName() {
@@ -81,11 +81,13 @@ class ChatRoomService {
   }
 
   async join(roomName: string, userName: string) {
+    this.roomName = roomName;
     ChatRoomService.defaultSocket.emit('join', roomName, userName);
   }
 
   async send(message: string) {
-    ChatRoomService.defaultSocket.emit('chat', this.roomName, message);
+    debugger;
+    ChatRoomService.defaultSocket.emit('chat', ChatRoomService.getRoomName(), message);
   }
 }
 

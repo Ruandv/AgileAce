@@ -18,6 +18,7 @@ export const defaultSocket = io(API_URL, {
     extraHeaders: {
         "my-custom-header": "abcd",
         "my-user-name": sessionStorage.getItem("userName") ?? localStorage.getItem("userName") ?? "John Doe",
+        "my-user-id": sessionStorage.getItem("userId") ?? localStorage.getItem("userId") ?? '',
     },
 });
 
@@ -72,6 +73,12 @@ export const SocketContextProvider = ({
             console.log("Socket connected:", socket.id);
             // join the room that is in useRoom
 
+        });
+
+        socket.on('userId', (userId: string) => {
+            console.log('User ID received:', userId);
+            sessionStorage.setItem('userId', userId);
+            localStorage.setItem('userId', userId);
         });
 
         socket.on("updateSettings", (msg: string) => {

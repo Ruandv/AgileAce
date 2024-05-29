@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import express from 'express';
 import http from 'http';
 import { Server, Socket } from 'socket.io';
@@ -8,12 +9,13 @@ import { ChatMessage } from './models/chatMessage';
 import { ClientToServerEvents, ServerToClientEvents, SocketData } from './models/socket-io';
 import { User } from './models/user';
 import fs from 'fs';
+import dotenv from 'dotenv';
+dotenv.config()
 
 const app = express();
 app.use(cors());
 app.use(express.static('public'));
 app.use(express.json());
-
 const server = http.createServer(app);
 
 // https://socket.io/docs/v4/typescript/
@@ -25,7 +27,7 @@ const io = new Server<
   cors: {
     origin: "*",
     methods: ["GET", "POST"],
-    allowedHeaders: ["my-custom-header","my-user-name"],
+    allowedHeaders: ["my-custom-header", "my-user-name", "my-user-id"],
     credentials: false
   }
 });
@@ -49,36 +51,21 @@ io.on('connection', (socket: Socket) => {
 
   socket.on('chat', (roomName: string, msg: string) => {
     //read the socket headers to retrieve the user name
-    const userName = socket.handshake.headers['my-user-name'];
-    console.log(`chat: ${roomName} ${msg}`);
-    let room = getRoom(roomName);
-    const user:User = room?.users.find((user) => user.userName === userName) as User;
-    if (!room) {
-      const userName = 'user' + Math.floor(Math.random() * 1000);
-      // throw an error
-      socket.join(roomName);
-      room = { 
-        settings: { showVotes: false },
-        playCards: [1,2,3,4],
-        messages: [{
-          text: `${userName} created the room ${roomName}`,
-          userId: socket.id,
-          date: new Date()
-        } as ChatMessage],
-        roomName: roomName,
-        roomId: new Date().toDateString(),
-        users: [{
-          userName: userName,
-          avatar: "",
-          userId: socket.id
-        } as User]
-      };
-      rooms.push(room);
+    let userId = socket.handshake.headers['my-user-id']?.toString();
+    if (!userId || userId === '') {
+      // redirect to the home page
+      console.log('User not found');
+
+      socket.emit('redirect', '/newRoom');
+      return;
     }
 
+    console.log(`chat: ${roomName} ${msg}`);
+    let room = getRoom(roomName);
+    const user:User = room?.users.find((user) => user.userId === userId) as User;
     room!.messages.push({
       text: msg,
-      userId: socket.id,
+      userId: userId,
       date: new Date()
     });
     console.log(`message ${user?.userName}: ${JSON.stringify(msg)}`);
@@ -96,15 +83,20 @@ io.on('connection', (socket: Socket) => {
     socket.join(roomName);
     const val = io.sockets.adapter.rooms.get(roomName);
     socket.in(roomName).emit('usersCount', val?.size.toString());
-
+    let userId = socket.handshake.headers['my-user-id']?.toString();
+    if(!userId || userId===''){
+      userId = uuidv4();
+    }
+    // reply to the socket with his unique id
+    socket.emit('userId', userId);
     let room = getRoom(roomName);
     if (!room) {
       room = {
         settings: { showVotes: false },
-        playCards: [1,2,3,4],
+        playCards: [1, 2, 3, 4],
         messages: [{
           text: `${userName} created the room ${roomName}`,
-          userId: socket.id,
+          userId: userId,
           date: new Date()
         } as ChatMessage],
         roomName: roomName,
@@ -112,21 +104,21 @@ io.on('connection', (socket: Socket) => {
         users: [{
           userName: userName,
           avatar: "",
-          userId: socket.id
+          userId: userId
         } as User]
       };
       rooms.push(room);
     }
     else {
       room.messages.push({
-        text: `${userName} [${socket.id}] joined the room`,
-        userId: socket.id,
+        text: `${userName} [${userId}] joined the room`,
+        userId: userId,
         date: new Date()
       });
-      room.users.push({ 
+      room.users.push({
         userName: userName,
         avatar: "",
-        userId: socket.id, 
+        userId: userId,
         voted: false,
         value: "?"
       });
@@ -145,7 +137,7 @@ io.on('connection', (socket: Socket) => {
     // remove the user from the room
     if (room) {
       const user = room.users.find((user) => user.userId === socket.id);
-      room.users = room.users.filter((user) => user.userId !== socket.id); 
+      room.users = room.users.filter((user) => user.userId !== socket.id);
       io.emit('updateSettings', JSON.stringify(room));
     }
     console.log('user disconnected');
@@ -162,19 +154,23 @@ server.listen(PORT, () => {
 
 function getRoom(roomName: string) {
   let room = rooms.find((room) => room.roomName === roomName);
-  if(!room) {
+  if (!room) {
     room = rooms.find((room) => room.roomId === roomName);
   }
   return room;
 }
 
-function logRooms(func:string) {
+function logRooms(func: string) {
   console.log(`\r\n\r\n-------------${func}----------------\r\n\r\n`);
   io.of('/').adapter.rooms.forEach((value, key) => {
+    if (!key) {
+      console.error(`Value: ${value} BUT key is null`)
+      return;
+    }
     console.log(`Room: ${getRoom(key.toString())?.roomName} has ${value.size} connections`);
     // log all the connections in the room
     value.forEach((socketId) => {
       console.log(`\t${socketId}`);
     });
   });
-}
+}  

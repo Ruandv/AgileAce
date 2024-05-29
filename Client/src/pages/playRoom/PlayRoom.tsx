@@ -30,7 +30,6 @@ const PlayRoom = () => {
             api.current = ChatRoomService.getInstance(socket, roomName);
             api.current.join(roomName, userName);
             setPlayCards( api.current!.getPlayCards());
-
         }
     }, [connectedUsers, socket]);
 
@@ -103,7 +102,7 @@ const PlayRoom = () => {
                 </div>
             </nav>
             <div className="mycontainer">
-                <div className="mychat-pane" id="chatroom"><ChatRoom></ChatRoom></div>
+                <div className="mychat-pane overflow-auto scroll-smooth" id="chatroom"><ChatRoom></ChatRoom></div>
                 <div className="myplay-area" id="playroom">
                     <div className="poker-table">
                         <div
@@ -113,6 +112,7 @@ const PlayRoom = () => {
                             <span className="flex flex-row m-5">
                                 {playCards.map((i) => (
                                     <PokerCard
+                                        key={i}
                                         display={i.toString()}
                                         onClick={() => toggleButton(Number(i))}
                                     />

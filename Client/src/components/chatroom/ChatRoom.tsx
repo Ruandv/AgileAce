@@ -1,4 +1,4 @@
-import React, { useEffect, useRef} from 'react';
+import React, { useEffect, useRef } from 'react';
 import './ChatRoom.css';
 import ChatRoomService from '../../services/chatRoom.service';
 import { useChatMessages, useSocket } from '../../contexts/SocketContext';
@@ -21,23 +21,6 @@ function ChatRoom() {
       message.current.value = "";
     }
   };
-  // {
-  //   <div key={index} className="flex items-center space-x-4">
-  //     <div className="font-semibold">{msg.text}</div>
-  //   </div>
-  // ))}
-
-  // <form className="border-t border-gray-300 p-4 bg-white" onSubmit={submitMessage}>
-  //         <div className="flex space-x-4">
-  //           <input
-  //             id="messageInput"
-  //             ref={message}
-  //             className="flex-grow rounded-lg border-gray-300 p-2"
-  //             placeholder="Type your message"
-  //           />
-  //           <button type="submit" className="bg-blue-500 text-white rounded-lg px-4 py-2">Send</button>
-  //         </div>
-  //       </form>
 
   const DIVISIONS = [
     { amount: 60, name: "seconds" },
@@ -87,43 +70,41 @@ function ChatRoom() {
   }
 
   return (
-    <div>
-      <div className="flex flex-col h-screen screen bg-gray-100 text-sm">
-        <div className="overflow-auto h-full px-6 py-4">
+    <>
+      <form
+        className="border-t border-gray-300 p-4 bg-white sticky top-0 mt-auto"
+        onSubmit={submitMessage}
+      >
+        <div className="flex space-x-4 flex-row flex-grow">
+          <input
+            id="messageInput"
+            ref={message}
+            className="flex-grow rounded-lg border-gray-300 p-2 block"
+            placeholder="Type your message"
+          />
+
+        </div>
+        <button
+          type="submit"
+          className="bg-blue-500 text-white rounded-sm right-0 px-4 py-2"
+        >
+          Send
+        </button>
+      </form>
+      <div className="flex flex-col bg-gray-100 text-sm">
+        <div className="px-6 py-4">
           <div className="border-b border-gray-300 mb-6 pb-2 flex justify-between items-center">
             <h1 className="text-3xl font-semibold">
               Chat Room ({chatRoomService.getUserCount()})
             </h1>
           </div>
-          <div className="chat-history space-y-4">
-            {/* {chat.map((msg: any, index) => (
-              
-            ))} */}
+          <div className="chat-history flex flex-col space-y-4  flex-col-reverse">
             {renderMessages()}
           </div>
         </div>
-        <form
-          className="border-t border-gray-300 p-4 bg-white"
-          onSubmit={submitMessage}
-        >
-          <div className="flex space-x-4 flex-row flex-grow">
-            <input
-              id="messageInput"
-              ref={message}
-              className="flex-grow rounded-lg border-gray-300 p-2 blcok"
-              placeholder="Type your message"
-            />
-
-          </div>
-          <button
-            type="submit"
-            className="bg-blue-500 text-white rounded-sm px-4 py-2"
-          >
-            Send
-          </button>
-        </form>
       </div>
-    </div>
+
+    </>
   );
 }
 
