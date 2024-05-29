@@ -49,39 +49,6 @@ function ChatRoom() {
     { amount: Number.POSITIVE_INFINITY, name: "years" },
   ]
 
-  // const renderMessages = () => {
-  //   const getRTF = (date: Date): React.ReactNode => {
-  //     // convert the date to Intl.RelativeTimeFormat
-  //     const formatter = new Intl.RelativeTimeFormat(undefined, {
-  //       numeric: "auto",
-  //     })
-
-  //     let duration = (new Date(date).getTime() - new Date().getTime()) / 1000
-
-  //     for (let i = 0; i < DIVISIONS.length; i++) {
-  //       const division = DIVISIONS[i]
-  //       if (Math.abs(duration) < division.amount) {
-  //         return formatter.format(Math.round(duration), (division.name as any))
-  //       }
-  //       duration /= division.amount
-  //     }
-  //     return 'long ago';
-  //   }
-  //   return messages.map((msg, index) => (
-  //     <li className="border-b border:gray-100 dark:border-gray-600">
-  //       <a href="#" className="flex items-center justify-center w-full px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800">
-  //         <img className="me-3 rounded-full w-11 h-11" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Leslie Livingston Avatar"></img>
-
-  //         <div>
-  //           <p className="text-sm text-gray-500 dark:text-gray-400"><span className="font-medium text-gray-900 dark:text-white">{msg.userId}</span> : what do you say?</p>
-  //           <span className="text-xs text-blue-600 dark:text-blue-500">{getRTF(msg.date)}</span>
-  //         </div>
-  //       </a>
-  //     </li>));
-  // }
-
-
-
   const renderMessages = () => {
     const getRTF = (date: Date): React.ReactNode => {
       // convert the date to Intl.RelativeTimeFormat
@@ -104,8 +71,7 @@ function ChatRoom() {
       <div key={index} className="p-4 rounded-lg bg-white shadow">
         <div className="flex">
           <div className="w-1/4 m-2">
-
-            <img className="card-img-top" src="https://i.pravatar.cc/200" width="100%" alt="Card image cap"></img>
+            <img className="card-img-top" src="https://i.pravatar.cc/200" width="100%" alt=""></img>
           </div>
           <div className="w-3/4 m-2">
             <h3 className=" font-bold">{msg.userId}</h3>
