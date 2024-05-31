@@ -19,7 +19,7 @@ app.use(express.json());
 const server = http.createServer(app);
 
 // https://socket.io/docs/v4/typescript/
-const io = new Server< 
+const io = new Server<
   ClientToServerEvents,
   ServerToClientEvents,
   SocketData
@@ -39,7 +39,7 @@ app.get('/', (req, res) => {
 
 io.on('connection', (socket: Socket) => {
   if (socket.recovered) {
-    console.log('recovered'); 
+    console.log('recovered');
   }
   else {
   }
@@ -49,21 +49,21 @@ io.on('connection', (socket: Socket) => {
     rooms.push(...roomData);
   };
 
-  socket.on('voted', (card: number) => {
+  socket.on('voted', (roomName: string, card: number) => {
     let userId = socket.handshake.headers['my-user-id']?.toString();
-    let room = rooms.find((room) => room.users.find((user) => user.userId === userId));
-    const user:User = room?.users.find((user) => user.userId === userId) as User;
-    user.value = card.toString(); 
+    let room = rooms.find((room) => room.roomName.toLocaleLowerCase() === roomName.toLocaleLowerCase());
+    const user: User = room?.users.find((user) => user.userId === userId) as User;
+    user.value = card.toString();
     user.voted = card >= 0;
     io.emit('updateSettings', JSON.stringify(room));
     fs.writeFileSync('rooms.json', JSON.stringify(rooms, null, 2));
   });
 
-  socket.on('userNameUpdated',(roomName:string, userName:string)=>{
+  socket.on('userNameUpdated', (roomName: string, userName: string) => {
     let userId = socket.handshake.headers['my-user-id']?.toString();
     let room = getRoom(roomName);
-    const user:User = room?.users.find((user) => user.userId === userId) as User;
-    
+    const user: User = room?.users.find((user) => user.userId === userId) as User;
+
     room!.messages.push({
       text: `${user.userName} is now known as ${userName}`,
       userId: userId!,
@@ -87,7 +87,7 @@ io.on('connection', (socket: Socket) => {
 
     console.log(`chat: ${roomName} ${msg}`);
     let room = getRoom(roomName);
-    const user:User = room?.users.find((user) => user.userId === userId) as User;
+    const user: User = room?.users.find((user) => user.userId === userId) as User;
     room!.messages.push({
       text: msg,
       userId: userId,
@@ -100,19 +100,19 @@ io.on('connection', (socket: Socket) => {
   });
 
   socket.on('join', async (roomName, userName) => {
+    let userId = socket.handshake.headers['my-user-id']?.toString();
+    let room = getRoom(roomName);
     socket.rooms.forEach((room) => {
+      console.log(`Leaving room ${room}`);
       socket.leave(room);
     });
-
     socket.join(roomName);
-    const val = io.sockets.adapter.rooms.get(roomName);
-    let userId = socket.handshake.headers['my-user-id']?.toString();
-    if(!userId || userId===''){
+    if (!userId || userId === '') {
       userId = uuidv4();
     }
     // reply to the socket with his unique id
     socket.emit('userId', userId);
-    let room = getRoom(roomName);
+
     if (!room) {
       room = {
         settings: { showVotes: false },
@@ -140,7 +140,8 @@ io.on('connection', (socket: Socket) => {
         userId: userId,
         date: new Date()
       });
-      if(!socket.handshake.headers['my-user-id']){
+      const user = room?.users.find((user) => user.userId === userId);
+      if (!user) {
         room.users.push({
           userName: userName,
           avatar: "",
@@ -159,13 +160,18 @@ io.on('connection', (socket: Socket) => {
     // the reason of the disconnection, for example "transport error"
     console.log(reason);
     console.log(JSON.stringify(details, null, 2));
+    let userId = socket.handshake.headers['my-user-id']?.toString();
+
     // find the room that the user is in
-    const room = rooms.find((room) => room.users.find((user) => user.userId === socket.id));
+    const roomsData = rooms.filter(room => room.users.some(user => user.userId === userId))
     // remove the user from the room
-    if (room) {
-      const user = room.users.find((user) => user.userId === socket.id);
-      room.users = room.users.filter((user) => user.userId !== socket.id);
-      io.emit('updateSettings', JSON.stringify(room));
+    if (roomsData) {
+      Array.from(roomsData).forEach(x => {
+        const user = x.users.find((user) => user.userId === userId);
+        x.users = x.users.filter((user) => user.userId !== userId);
+        //  io.to(x.roomName).emit('updateSettings', JSON.stringify(roomsData));
+      }
+      )
     }
     console.log('user disconnected');
     logRooms('disconnect');
@@ -180,9 +186,9 @@ server.listen(PORT, () => {
 });
 
 function getRoom(roomName: string) {
-  let room = rooms.find((room) => room.roomName === roomName);
+  let room = rooms.find((room) => room.roomName.toLocaleLowerCase() === roomName.toLocaleLowerCase());
   if (!room) {
-    room = rooms.find((room) => room.roomId === roomName);
+    room = rooms.find((room) => room.roomId.toLocaleLowerCase() === roomName.toLocaleLowerCase());
   }
   return room;
 }
@@ -194,10 +200,13 @@ function logRooms(func: string) {
       console.error(`Value: ${value} BUT key is null`)
       return;
     }
-    console.log(`Room: ${getRoom(key.toString())?.roomName} has ${value.size} connections`);
-    // log all the connections in the room
-    value.forEach((socketId) => {
-      console.log(`\t${socketId}`);
-    });
+    const roomName = getRoom(key.toString())?.roomName;
+    if(roomName){      
+      console.log(`Room: ${roomName} has ${value.size} connections`);
+      // log all the connections in the room
+      value.forEach((socketId) => {
+        console.log(`\t${socketId}`);
+      });
+    }
   });
 }  

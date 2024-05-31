@@ -11,219 +11,172 @@
     ],
     "messages": [
       {
-        "text": "tea created the room test",
-        "userId": "f54de84c-ba71-4a8c-a7fe-605a709ecb64",
-        "date": "2024-05-29T21:25:49.698Z"
-      },
-      {
-        "text": "car [f54de84c-ba71-4a8c-a7fe-605a709ecb64] joined the room",
-        "userId": "f54de84c-ba71-4a8c-a7fe-605a709ecb64",
-        "date": "2024-05-29T21:25:52.278Z"
-      },
-      {
-        "text": "helo",
-        "userId": "f54de84c-ba71-4a8c-a7fe-605a709ecb64",
-        "date": "2024-05-29T21:26:01.814Z"
-      },
-      {
-        "text": "ee [f54de84c-ba71-4a8c-a7fe-605a709ecb64] joined the room",
-        "userId": "f54de84c-ba71-4a8c-a7fe-605a709ecb64",
-        "date": "2024-05-29T21:27:05.738Z"
-      },
-      {
-        "text": "ee [f54de84c-ba71-4a8c-a7fe-605a709ecb64] joined the room",
-        "userId": "f54de84c-ba71-4a8c-a7fe-605a709ecb64",
-        "date": "2024-05-29T21:27:09.602Z"
-      },
-      {
-        "text": "tea [f54de84c-ba71-4a8c-a7fe-605a709ecb64] joined the room",
-        "userId": "f54de84c-ba71-4a8c-a7fe-605a709ecb64",
-        "date": "2024-05-29T21:27:10.551Z"
-      },
-      {
-        "text": "other [32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b] joined the room",
+        "text": "pc created the room room",
         "userId": "32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b",
-        "date": "2024-05-29T21:27:52.126Z"
+        "date": "2024-05-31T18:58:08.092Z"
       },
       {
-        "text": "cas",
+        "text": "Fgbv [ea896b0d-c14c-4897-8182-83cbae9733d7] joined the room",
+        "userId": "ea896b0d-c14c-4897-8182-83cbae9733d7",
+        "date": "2024-05-31T18:58:18.515Z"
+      },
+      {
+        "text": "Fgbv is now known as Phone",
+        "userId": "ea896b0d-c14c-4897-8182-83cbae9733d7",
+        "date": "2024-05-31T18:58:25.537Z"
+      },
+      {
+        "text": "pc [32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b] joined the room",
         "userId": "32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b",
-        "date": "2024-05-29T21:28:08.701Z"
+        "date": "2024-05-31T18:58:37.674Z"
       },
       {
-        "text": "asd",
-        "userId": "f54de84c-ba71-4a8c-a7fe-605a709ecb64",
-        "date": "2024-05-29T21:28:21.823Z"
-      },
-      {
-        "text": "d",
+        "text": "pc [32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b] joined the room",
         "userId": "32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b",
-        "date": "2024-05-29T21:28:27.777Z"
+        "date": "2024-05-31T19:00:58.521Z"
       },
       {
-        "text": "ee [f54de84c-ba71-4a8c-a7fe-605a709ecb64] joined the room",
-        "userId": "f54de84c-ba71-4a8c-a7fe-605a709ecb64",
-        "date": "2024-05-29T21:29:35.265Z"
-      },
-      {
-        "text": "other [32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b] joined the room",
+        "text": "pc [32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b] joined the room",
         "userId": "32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b",
-        "date": "2024-05-29T21:29:35.279Z"
+        "date": "2024-05-31T19:03:36.206Z"
       },
       {
-        "text": "ee [f54de84c-ba71-4a8c-a7fe-605a709ecb64] joined the room",
-        "userId": "f54de84c-ba71-4a8c-a7fe-605a709ecb64",
-        "date": "2024-05-29T21:29:45.434Z"
+        "text": "Fgbv [ea896b0d-c14c-4897-8182-83cbae9733d7] joined the room",
+        "userId": "ea896b0d-c14c-4897-8182-83cbae9733d7",
+        "date": "2024-05-31T19:03:43.465Z"
       },
       {
-        "text": "other [32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b] joined the room",
+        "text": "pc [32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b] joined the room",
         "userId": "32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b",
-        "date": "2024-05-29T21:29:47.516Z"
+        "date": "2024-05-31T19:03:48.435Z"
       },
       {
-        "text": "other [32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b] joined the room",
+        "text": "pc [32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b] joined the room",
         "userId": "32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b",
-        "date": "2024-05-29T21:30:34.437Z"
+        "date": "2024-05-31T19:04:55.343Z"
       },
       {
-        "text": "ee [f54de84c-ba71-4a8c-a7fe-605a709ecb64] joined the room",
-        "userId": "f54de84c-ba71-4a8c-a7fe-605a709ecb64",
-        "date": "2024-05-29T21:30:34.755Z"
-      },
-      {
-        "text": "other [32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b] joined the room",
+        "text": "pc [32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b] joined the room",
         "userId": "32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b",
-        "date": "2024-05-29T21:30:39.073Z"
+        "date": "2024-05-31T19:05:36.972Z"
       },
       {
-        "text": "ee [f54de84c-ba71-4a8c-a7fe-605a709ecb64] joined the room",
-        "userId": "f54de84c-ba71-4a8c-a7fe-605a709ecb64",
-        "date": "2024-05-29T21:30:41.162Z"
-      },
-      {
-        "text": "other [32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b] joined the room",
+        "text": "pc [32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b] joined the room",
         "userId": "32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b",
-        "date": "2024-05-29T21:32:21.526Z"
+        "date": "2024-05-31T19:05:37.023Z"
       },
       {
-        "text": "ee [f54de84c-ba71-4a8c-a7fe-605a709ecb64] joined the room",
-        "userId": "f54de84c-ba71-4a8c-a7fe-605a709ecb64",
-        "date": "2024-05-29T21:32:21.534Z"
-      },
-      {
-        "text": "ee [f54de84c-ba71-4a8c-a7fe-605a709ecb64] joined the room",
-        "userId": "f54de84c-ba71-4a8c-a7fe-605a709ecb64",
-        "date": "2024-05-29T21:32:24.267Z"
-      },
-      {
-        "text": "other [32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b] joined the room",
+        "text": "pc [32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b] joined the room",
         "userId": "32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b",
-        "date": "2024-05-29T21:32:26.063Z"
+        "date": "2024-05-31T19:05:39.400Z"
       },
       {
-        "text": "ee [f54de84c-ba71-4a8c-a7fe-605a709ecb64] joined the room",
-        "userId": "f54de84c-ba71-4a8c-a7fe-605a709ecb64",
-        "date": "2024-05-29T21:33:12.061Z"
+        "text": "Fgbv [ea896b0d-c14c-4897-8182-83cbae9733d7] joined the room",
+        "userId": "ea896b0d-c14c-4897-8182-83cbae9733d7",
+        "date": "2024-05-31T19:05:48.760Z"
       },
       {
-        "text": "other [32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b] joined the room",
+        "text": "Fgbv is now known as Phone",
+        "userId": "ea896b0d-c14c-4897-8182-83cbae9733d7",
+        "date": "2024-05-31T19:06:12.683Z"
+      },
+      {
+        "text": "Fgbv [ea896b0d-c14c-4897-8182-83cbae9733d7] joined the room",
+        "userId": "ea896b0d-c14c-4897-8182-83cbae9733d7",
+        "date": "2024-05-31T19:06:23.179Z"
+      },
+      {
+        "text": "Phone [ea896b0d-c14c-4897-8182-83cbae9733d7] joined the room",
+        "userId": "ea896b0d-c14c-4897-8182-83cbae9733d7",
+        "date": "2024-05-31T19:07:00.763Z"
+      },
+      {
+        "text": "Phone [ea896b0d-c14c-4897-8182-83cbae9733d7] joined the room",
+        "userId": "ea896b0d-c14c-4897-8182-83cbae9733d7",
+        "date": "2024-05-31T19:07:03.594Z"
+      },
+      {
+        "text": "pc [32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b] joined the room",
         "userId": "32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b",
-        "date": "2024-05-29T21:33:12.099Z"
+        "date": "2024-05-31T19:07:11.539Z"
       },
       {
-        "text": "ee [f54de84c-ba71-4a8c-a7fe-605a709ecb64] joined the room",
-        "userId": "f54de84c-ba71-4a8c-a7fe-605a709ecb64",
-        "date": "2024-05-29T21:33:14.803Z"
-      },
-      {
-        "text": "other [32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b] joined the room",
+        "text": "pc [32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b] joined the room",
         "userId": "32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b",
-        "date": "2024-05-29T21:33:14.817Z"
+        "date": "2024-05-31T19:10:20.311Z"
       },
       {
-        "text": "ee [f54de84c-ba71-4a8c-a7fe-605a709ecb64] joined the room",
-        "userId": "f54de84c-ba71-4a8c-a7fe-605a709ecb64",
-        "date": "2024-05-29T21:33:23.769Z"
+        "text": "Phone [ea896b0d-c14c-4897-8182-83cbae9733d7] joined the room",
+        "userId": "ea896b0d-c14c-4897-8182-83cbae9733d7",
+        "date": "2024-05-31T19:10:38.262Z"
       },
       {
-        "text": "other [32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b] joined the room",
+        "text": "pc [32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b] joined the room",
         "userId": "32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b",
-        "date": "2024-05-29T21:33:23.788Z"
+        "date": "2024-05-31T19:10:42.928Z"
       },
       {
-        "text": "ee [f54de84c-ba71-4a8c-a7fe-605a709ecb64] joined the room",
-        "userId": "f54de84c-ba71-4a8c-a7fe-605a709ecb64",
-        "date": "2024-05-29T21:33:26.119Z"
+        "text": "Phone [ea896b0d-c14c-4897-8182-83cbae9733d7] joined the room",
+        "userId": "ea896b0d-c14c-4897-8182-83cbae9733d7",
+        "date": "2024-05-31T19:11:10.809Z"
       },
       {
-        "text": "other [32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b] joined the room",
+        "text": "Phone [ea896b0d-c14c-4897-8182-83cbae9733d7] joined the room",
+        "userId": "ea896b0d-c14c-4897-8182-83cbae9733d7",
+        "date": "2024-05-31T19:11:30.736Z"
+      },
+      {
+        "text": "Phone [ea896b0d-c14c-4897-8182-83cbae9733d7] joined the room",
+        "userId": "ea896b0d-c14c-4897-8182-83cbae9733d7",
+        "date": "2024-05-31T19:12:47.297Z"
+      },
+      {
+        "text": "pc [32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b] joined the room",
         "userId": "32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b",
-        "date": "2024-05-29T21:33:26.130Z"
+        "date": "2024-05-31T19:13:45.624Z"
       },
       {
-        "text": "ee [f54de84c-ba71-4a8c-a7fe-605a709ecb64] joined the room",
-        "userId": "f54de84c-ba71-4a8c-a7fe-605a709ecb64",
-        "date": "2024-05-29T21:33:56.521Z"
-      },
-      {
-        "text": "other [32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b] joined the room",
+        "text": "mypc [32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b] joined the room",
         "userId": "32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b",
-        "date": "2024-05-29T21:33:56.533Z"
+        "date": "2024-05-31T19:21:14.851Z"
       },
       {
-        "text": "other [32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b] joined the room",
+        "text": "mypc [32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b] joined the room",
         "userId": "32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b",
-        "date": "2024-05-29T21:34:00.566Z"
+        "date": "2024-05-31T19:21:16.568Z"
       },
       {
-        "text": "ee [f54de84c-ba71-4a8c-a7fe-605a709ecb64] joined the room",
-        "userId": "f54de84c-ba71-4a8c-a7fe-605a709ecb64",
-        "date": "2024-05-29T21:34:02.101Z"
+        "text": "Phone [ea896b0d-c14c-4897-8182-83cbae9733d7] joined the room",
+        "userId": "ea896b0d-c14c-4897-8182-83cbae9733d7",
+        "date": "2024-05-31T19:21:21.417Z"
       },
       {
-        "text": "ee [f54de84c-ba71-4a8c-a7fe-605a709ecb64] joined the room",
-        "userId": "f54de84c-ba71-4a8c-a7fe-605a709ecb64",
-        "date": "2024-05-29T21:34:37.959Z"
+        "text": "mypc [32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b] joined the room",
+        "userId": "32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b",
+        "date": "2024-05-31T19:43:18.353Z"
+      },
+      {
+        "text": "Phone [ea896b0d-c14c-4897-8182-83cbae9733d7] joined the room",
+        "userId": "ea896b0d-c14c-4897-8182-83cbae9733d7",
+        "date": "2024-05-31T19:43:27.028Z"
       }
     ],
-    "roomName": "test",
-    "roomId": "Wed May 29 2024",
+    "roomName": "room",
+    "roomId": "Fri May 31 2024",
     "users": [
       {
-        "userName": "tea",
+        "userName": "mypc",
         "avatar": "",
-        "value": "-1",
-        "voted": false,
-        "userId": "f54de84c-ba71-4a8c-a7fe-605a709ecb64"
-      }
-    ]
-  },
-  {
-    "settings": {
-      "showVotes": false
-    },
-    "playCards": [
-      1,
-      2,
-      3,
-      4
-    ],
-    "messages": [
-      {
-        "text": "teas created the room care",
         "userId": "32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b",
-        "date": "2024-05-29T21:27:20.552Z"
-      }
-    ],
-    "roomName": "care",
-    "roomId": "Wed May 29 2024",
-    "users": [
-      {
-        "userName": "teas",
-        "avatar": "",
-        "value": "?",
         "voted": false,
-        "userId": "32fc8fd8-ed15-4ef9-8e2a-ddbf797f038b"
+        "value": "?"
+      },
+      {
+        "userName": "Phone",
+        "avatar": "",
+        "userId": "ea896b0d-c14c-4897-8182-83cbae9733d7",
+        "voted": true,
+        "value": "1"
       }
     ]
   }
