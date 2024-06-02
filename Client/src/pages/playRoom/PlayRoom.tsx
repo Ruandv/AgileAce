@@ -1,18 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import ChatRoomService from '../../services/chatRoom.service';
 import { useSocket } from '../../contexts/SocketContext';
 import ChatRoom from '../../components/chatroom/ChatRoom';
-import PokerCard from '../../components/pokerCard/PokerCard';
-import './PlayRoom.css';
-import Modal from '../../components/modal/modal';
 import { useRoom } from '../../contexts/roomSettingsContext';
-import { User } from '../../models/user';
+import PokerTable from '../../components/pokerTable/PokerTable';
+import styles from './PlayRoom.module.css';
 
 const PlayRoom = () => {
     const socket = useSocket();
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [playCards, setPlayCards] = useState<number[]>([]);
     const roomCtx = useRoom();
     let api = useRef<ChatRoomService>();
     useEffect(() => {
@@ -25,50 +21,11 @@ const PlayRoom = () => {
         else {
             api.current = ChatRoomService.getInstance(socket, roomName);
             api.current.join(roomName, userName);
-            setPlayCards(roomCtx.playCards);
         }
     }, [socket]);
 
-    const modalProps = {
-        title: "Change User Name",
-        close: () => setIsModalOpen(false),
-        content: <p>
-            <div>
-                <div className="relative">
-                    <input type="text" id="floating_filled" className="block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
-                    <label htmlFor="floating_filled" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Floating filled</label>
-                </div>
-            </div>
-        </p>,
-        actions: <>
-            <button onClick={() => {
-                // get the first_name value
-                const userName = (document.getElementById('floating_filled') as HTMLInputElement).value;
-                api.current?.userNameUpdated(userName);
-                sessionStorage.setItem("userName", userName);
-                setIsModalOpen(false)
-            }
-            } data-modal-hide="default-modal" type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button>
-            <button onClick={() => {
-                setIsModalOpen(false)
-            }
-            }
-                data-modal-hide="default-modal" type="button" className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Decline</button>
-        </>
-    };
-    const [activeButton, setIsActiveButton] = useState(0);
-
-    function toggleButton(user: User, cardIndex: number): void {
-        if(user.value === cardIndex.toString()) {
-            cardIndex = -1;
-        }
-        api.current?.voted(cardIndex);
-        console.log("active button = " + activeButton);
-    }
-
     return (
         <>
-            <button className="btn" onClick={() => setIsModalOpen(true)}>Set UserName</button>
             <nav className="bg-white border-gray-200 dark:bg-gray-900">
                 <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                     <a href="https://flowbite.com/" className="flex items-center space-x-3 rtl:space-x-reverse">
@@ -82,77 +39,12 @@ const PlayRoom = () => {
                     </button>
                 </div>
             </nav>
-            <div className="mycontainer">
-                <div className="mychat-pane overflow-auto scroll-smooth" id="chatroom"><ChatRoom></ChatRoom></div>
-                <div className="myplay-area" id="playroom">
-                    <div className="poker-table">
-                        <div
-                            id="right"
-                            className="flex items-center justify-center"
-                        >
-                            <div>
-                                {roomCtx.users.map((user, i) => {
-                                    if (ChatRoomService.getUserId() !== user.userId) {
-                                        return (
-                                            <div key={`${user.userId}_${i}`} className='flex flex-row'>
-                                                <div className="flex flex-col items-center">
-                                                    <img
-                                                        className="rounded-full h-16 w-16"
-                                                        src="https://i.pravatar.cc/200"
-                                                        alt="user"
-                                                    />
-                                                    <p className="text-sm font-semibold text-gray-800">
-                                                        {user.userName}yyyy
-                                                    </p>
-                                                </div>
-                                                <span className="flex flex-row m-5">
-
-                                                    <PokerCard
-                                                        key={`${user.userId}_${i}_${0}`}
-                                                        display={'?'}
-                                                        isActive={user.voted === true}
-                                                    />
-                                                </span>
-                                            </div>);
-                                    }
-                                    else {
-                                        // this is me and should be shown in the bottom center
-                                        return (
-                                            <div key={`${user.userId}_${i}`} className='flex flex-row'>
-                                                <div className="flex flex-col items-center">
-                                                    <img
-                                                        className="rounded-full h-16 w-16"
-                                                        src="https://i.pravatar.cc/200"
-                                                        alt="user"
-                                                    />
-                                                    <p className="text-sm font-semibold text-gray-800">
-                                                        {user.userName}
-                                                    </p>
-                                                </div>
-                                                <span className="flex flex-row m-5">
-                                                    {playCards?.map((card, idx) => (
-                                                        <PokerCard
-                                                            key={`${user.userId}_${i}_${idx}`}
-                                                            display={card.toString()}
-                                                            isActive={card === Number(user.value)}
-                                                            onClick={() => toggleButton(user, card)}
-                                                        />
-                                                    ))}
-                                                </span>
-                                            </div>);
-                                    }
-                                })}
-                            </div>
-
-                        </div>
-                    </div>
+            <div className={styles.container}>
+                <div className={styles['chat-pane']} id="chatroom"><ChatRoom></ChatRoom></div>
+                <div className={styles['play-area']} id="playroom">
+                    <PokerTable></PokerTable>
                 </div>
             </div>
-            {isModalOpen && (
-                <Modal {...modalProps}
-                >
-                </Modal>
-            )}
         </>
     );
 };

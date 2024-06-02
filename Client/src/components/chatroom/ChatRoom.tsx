@@ -1,18 +1,29 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './ChatRoom.css';
 import ChatRoomService from '../../services/chatRoom.service';
-import { useChatMessages, useChatRoom, useSocket } from '../../contexts/SocketContext';
+import { useChatMessages, useSocket } from '../../contexts/SocketContext';
 import { useRoom } from '../../contexts/roomSettingsContext';
+import Modal from '../modal/modal';
 
 function ChatRoom() {
   const socket = useSocket();
   const message = useRef<HTMLInputElement>(null);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const chatRoomService = ChatRoomService.getInstance(socket);
   const messages = useChatMessages();
   const room = useRoom();
-  useEffect(() => {
 
+  useEffect(() => {
+    // check the querystring to retrieve the room name
+    const roomName = new URLSearchParams(window.location.search).get('roomName') ?? ChatRoomService.getRoomName();
+    const userName = new URLSearchParams(window.location.search).get('userName') ?? ChatRoomService.getUserName();
+    if (roomName === null) {
+      window.location.href = '/newRoom';
+    }
+    else {
+      api.current = ChatRoomService.getInstance(socket, roomName);
+      api.current.join(roomName, userName);
+    }
   }, []);
 
   const submitMessage = (e: React.FormEvent) => {
@@ -73,9 +84,42 @@ function ChatRoom() {
       </div>
     ))
   }
+  let api = useRef<ChatRoomService>();
+
+  const modalProps = {
+    title: "Change User Name",
+    close: () => setIsModalOpen(false),
+    content: <p>
+      <div>
+        <div className="relative">
+          <input type="text" id="floating_filled" className="block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+          <label htmlFor="floating_filled" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Floating filled</label>
+        </div>
+      </div>
+    </p>,
+    actions: <>
+      <button onClick={() => {
+        // get the first_name value
+        const userName = (document.getElementById('floating_filled') as HTMLInputElement).value;
+        api.current?.userNameUpdated(userName);
+        sessionStorage.setItem("userName", userName);
+        setIsModalOpen(false)
+      }
+      } data-modal-hide="default-modal" type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button>
+      <button onClick={() => {
+        setIsModalOpen(false)
+      }
+      }
+        data-modal-hide="default-modal" type="button" className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Decline</button>
+    </>
+  };
 
   return (
     <>
+      {isModalOpen && (
+        <Modal {...modalProps}></Modal>
+      )}
+
       <form
         className="border-t border-gray-300 p-4 bg-white sticky top-0 mt-auto"
         onSubmit={submitMessage}
@@ -90,8 +134,15 @@ function ChatRoom() {
 
         </div>
         <button
+          type="button" mx-2
+          className="bg-blue-400 text-white rounded-sm right-0 px-4 py-2 mx-2"
+          onClick={() => setIsModalOpen(true)}
+        >
+          Change name
+        </button>
+        <button
           type="submit"
-          className="bg-blue-500 text-white rounded-sm right-0 px-4 py-2"
+          className="bg-blue-800 text-white rounded-sm right-0 px-4 py-2"
         >
           Send
         </button>
@@ -100,7 +151,7 @@ function ChatRoom() {
         <div className="px-6 py-4">
           <div className="border-b border-gray-300 mb-6 pb-2 flex justify-between items-center">
             <h1 className="text-3xl font-semibold">
-              Chat Room ({room.users.length.toString()} users)
+              {room.roomName} ({room.users.length.toString()} users)
             </h1>
           </div>
           <div className="chat-history flex flex-col space-y-4  flex-col-reverse">
@@ -108,7 +159,6 @@ function ChatRoom() {
           </div>
         </div>
       </div>
-
     </>
   );
 }

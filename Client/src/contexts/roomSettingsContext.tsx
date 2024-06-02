@@ -20,7 +20,6 @@ export interface Room {
     messages: ChatMessage[];
     playCards: number[];
     settings: Settings;
-    me: User;
 }
 
 // Define the context type
@@ -39,8 +38,7 @@ export const defaultRoom: Room = {
         userId: 'test',
         date: new Date()
     } as ChatMessage],
-    settings: {} as Settings,
-    me: {} as User,
+    settings: {} as Settings
 };
 
 // Create the context with default values
@@ -66,8 +64,7 @@ export const RoomContextProvider = ({ children }: RoomContextProviderProps): JSX
             roomName: chatRoom.roomName,
             users: chatRoom.users,
             messages: chatRoom.messages,
-            settings: chatRoom.settings,
-            me: chatRoom.users.find(u => u.userId === '3') ?? {} as User
+            settings: chatRoom.settings
         };
         setRoom(data as Room)
     }, [chatRoom]);

@@ -5,6 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start:server":"cd server && npm start",
+    "start:client":"cd client && npm start",
+    "kill:3020": "npx kill-port 3020",
     "generate-changelog": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s --grep '(feat|fix|bug)'",
     "prepare": "husky install"
   },

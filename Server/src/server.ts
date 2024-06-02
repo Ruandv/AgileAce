@@ -41,27 +41,38 @@ io.on('connection', (socket: Socket) => {
   if (socket.recovered) {
     console.log('recovered');
   }
-  else {
-  }
   if (rooms.length === 0) {
-    const data = fs.readFileSync('rooms.json', 'utf8');
-    const roomData = JSON.parse(data);
-    rooms.push(...roomData);
+    console.log('loading rooms');
+    // find all the files starting with room_*.json in the directory
+    const dirFiles = fs.readdirSync('./');
+    dirFiles.map((file) => {
+      if (file.startsWith('room_') && file.endsWith('.json')) {
+        console.log(`\t${file}`);
+        const data = fs.readFileSync(file, 'utf8');
+        const roomData = JSON.parse(data);
+        rooms.push(...roomData);
+      }
+    });
   };
 
   socket.on('voted', (roomName: string, card: number) => {
     let userId = socket.handshake.headers['my-user-id']?.toString();
-    let room = rooms.find((room) => room.roomName.toLocaleLowerCase() === roomName.toLocaleLowerCase());
+    let room = getRoom(roomName);
+    if (!room) {
+      return;
+    }
     const user: User = room?.users.find((user) => user.userId === userId) as User;
     user.value = card.toString();
     user.voted = card >= 0;
-    io.emit('updateSettings', JSON.stringify(room));
-    fs.writeFileSync('rooms.json', JSON.stringify(rooms, null, 2));
+    updateSettings(room)
   });
 
   socket.on('userNameUpdated', (roomName: string, userName: string) => {
     let userId = socket.handshake.headers['my-user-id']?.toString();
     let room = getRoom(roomName);
+    if (!room) {
+      return;
+    }
     const user: User = room?.users.find((user) => user.userId === userId) as User;
 
     room!.messages.push({
@@ -70,8 +81,8 @@ io.on('connection', (socket: Socket) => {
       date: new Date()
     });
     user.userName = userName;
-    io.emit('updateSettings', JSON.stringify(room));
-    fs.writeFileSync('rooms.json', JSON.stringify(rooms, null, 2));
+    updateSettings(room);
+
   });
 
   socket.on('chat', (roomName: string, msg: string) => {
@@ -79,24 +90,21 @@ io.on('connection', (socket: Socket) => {
     let userId = socket.handshake.headers['my-user-id']?.toString();
     if (!userId || userId === '') {
       // redirect to the home page
-      console.log('User not found');
-
       socket.emit('redirect', '/newRoom');
       return;
     }
 
-    console.log(`chat: ${roomName} ${msg}`);
     let room = getRoom(roomName);
-    const user: User = room?.users.find((user) => user.userId === userId) as User;
-    room!.messages.push({
+    if (!room) {
+      return;
+    }
+    room.messages.push({
       text: msg,
       userId: userId,
       date: new Date()
     });
-    console.log(`message ${user?.userName}: ${JSON.stringify(msg)}`);
     logRooms('chat');
-    io.emit('updateSettings', JSON.stringify(room));
-    fs.writeFileSync('rooms.json', JSON.stringify(rooms, null, 2));
+    updateSettings(room);
   });
 
   socket.on('join', async (roomName, userName) => {
@@ -151,9 +159,8 @@ io.on('connection', (socket: Socket) => {
         });
       }
     }
-    console.log(JSON.stringify(room, null, 2));
     logRooms('join');
-    io.emit('updateSettings', JSON.stringify(room));
+    updateSettings(room);
   });
 
   socket.on('disconnect', (reason, details) => {
@@ -162,22 +169,28 @@ io.on('connection', (socket: Socket) => {
     console.log(JSON.stringify(details, null, 2));
     let userId = socket.handshake.headers['my-user-id']?.toString();
 
-    // find the room that the user is in
+    // find the room that the user is in 
     const roomsData = rooms.filter(room => room.users.some(user => user.userId === userId))
     // remove the user from the room
     if (roomsData) {
       Array.from(roomsData).forEach(x => {
-        const user = x.users.find((user) => user.userId === userId);
         x.users = x.users.filter((user) => user.userId !== userId);
-        //  io.to(x.roomName).emit('updateSettings', JSON.stringify(roomsData));
       }
       )
     }
     console.log('user disconnected');
+    //logRooms('disconnect');
+    rooms.forEach((room) => {
+      updateSettings(room);
+    });
     logRooms('disconnect');
   });
 });
 
+const updateSettings = (room: ChatRoom) => {
+  io.to(room.roomName).emit('updateSettings', JSON.stringify(room));
+  fs.writeFileSync(`room_${room.roomName}.json`, JSON.stringify(room, null, 2));
+}
 const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, () => {
@@ -185,12 +198,17 @@ server.listen(PORT, () => {
   console.log(`http://localhost:${PORT}`);
 });
 
-function getRoom(roomName: string) {
+const getRoom = (roomName: string): ChatRoom | undefined => {
   let room = rooms.find((room) => room.roomName.toLocaleLowerCase() === roomName.toLocaleLowerCase());
   if (!room) {
     room = rooms.find((room) => room.roomId.toLocaleLowerCase() === roomName.toLocaleLowerCase());
   }
-  return room;
+  if (!room) {
+    return undefined;
+  }
+  else {
+    return room;
+  }
 }
 
 function logRooms(func: string) {
@@ -201,7 +219,7 @@ function logRooms(func: string) {
       return;
     }
     const roomName = getRoom(key.toString())?.roomName;
-    if(roomName){      
+    if (roomName) {
       console.log(`Room: ${roomName} has ${value.size} connections`);
       // log all the connections in the room
       value.forEach((socketId) => {

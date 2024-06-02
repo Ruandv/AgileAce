@@ -67,7 +67,7 @@ class ChatRoomService {
     ChatRoomService.defaultSocket.emit('join', roomName, userName);
   }
   async voted(card: number) {
-    ChatRoomService.defaultSocket.emit('voted', card);
+    ChatRoomService.defaultSocket.emit('voted', this.roomName, card);
   }
   async send(message: string) {
     ChatRoomService.defaultSocket.emit('chat', ChatRoomService.getRoomName(), message);
