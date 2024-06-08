@@ -68,9 +68,21 @@ const PokerTable: React.FC<Props> = (props) => {
             title: "Results",
             content:
                 <div>
+                    <div className={`${styles['voters-result']}`}>
+                        {data.cards.map((card: any, i: number) => {
+                            return <span>
+                                <PokerCard display={card.value} isActive={false} />
+                                {card.users.map((user: any, j: number) => {
+                                    return <p>{user}</p>
+                                })}
+                            </span>
+                        })}
+                    </div>
+                    <hr />
                     <p>Total votes: {data.votes}</p>
-                    <p>Average: {data.value / data.votes}</p>
-                </div>,
+                    <p>Average: {data.average}</p>
+                    <p>Closest: {data.closest}</p>
+                </div >,
             close: () => { setShowModal(false); api.current?.resetVotes(); },
             actions: <>
                 <button onClick={() => {
@@ -99,7 +111,7 @@ const PokerTable: React.FC<Props> = (props) => {
                     id='players'
                     className="flex max-h-[80%] flex-col flex-wrap justify-center"
                 >
-                    {roomCtx.users.map((user, i:number) => {
+                    {roomCtx.users.map((user, i: number) => {
                         if (ChatRoomService.getUserId() !== user.userId) {
                             return (
                                 <div key={`${user.userId}_${i} `} className='flex flex-row items-center'>
@@ -113,7 +125,7 @@ const PokerTable: React.FC<Props> = (props) => {
                                             {user.userName}
                                         </p>
                                     </div>
-                                    {user.voted && <span  style={{ '--index': `${i}` } as React.CSSProperties} className={`flex flex-row m-5 ${styles.card} ${styles.animate}`}>
+                                    {user.voted && <span style={{ '--index': `${i}` } as React.CSSProperties} className={`flex flex-row m-5 ${styles.card} ${styles.animate}`}>
                                         <PokerCard
                                             key={`${user.userId}_${i}_${0} `}
                                             display={showModal ? user.value : '?'}

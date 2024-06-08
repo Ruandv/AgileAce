@@ -10,6 +10,7 @@ import { ClientToServerEvents, ServerToClientEvents, SocketData } from './models
 import { User } from './models/user';
 import fs from 'fs';
 import dotenv from 'dotenv';
+import { VoterRoll } from './models/VoterRoll';
 dotenv.config()
 
 const app = express();
@@ -77,7 +78,7 @@ io.on('connection', (socket: Socket) => {
     const user: User = room?.users.find((user) => user.userId === userId) as User;
 
     room!.messages.push({
-      text: `${user.userName} is now known as ${userName}`, 
+      text: `${user.userName} is now known as ${userName}`,
       userId: userId!,
       date: new Date()
     });
@@ -110,16 +111,31 @@ io.on('connection', (socket: Socket) => {
 
   socket.on('showVotes', (roomName: string) => {
     // calculate the votes
-    const data = { votes: 0, value: 0 };
+    const data: VoterRoll = {
+      average: 0,
+      closest: 0,
+      value: 0,
+      votes: 0,
+      cards: []
+    };
     getRoom(roomName)?.users.forEach((user) => {
       if (user.voted === true && user.value !== "?") {
         data.value += parseInt(user.value);
         data.votes++;
+        // check if we have a pokerCard where value is equal to user.value
+        const pokerCard = data.cards.find((card: any) => card.value === user.value);
+        if (!pokerCard) {
+          data.cards.push({ value: user.value, users: [user.userName] });
+        }
+        else {
+          pokerCard.users.push(user.userName);
+        }
       }
     });
+    data.average = data.value / data.votes;
+    data.closest = getRoom(roomName)!.playCards.reduce((prev, curr) => Math.abs(curr - data.average) < Math.abs(prev - data.average) ? curr : prev);
     io.to(roomName).emit('shotClock', JSON.stringify(data));
-
-  });
+  }); 
 
   socket.on('resetVotes', (roomName: string) => {
     getRoom(roomName)?.users.forEach((user) => {

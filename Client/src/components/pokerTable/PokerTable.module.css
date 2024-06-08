@@ -8,6 +8,13 @@
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
     position: relative;
 }
+.voters-result{
+    padding-bottom: 2em;
+    span{
+        align-items: center;
+        text-align: center;
+    }
+}
 .card{
     position: absolute;    
 }
