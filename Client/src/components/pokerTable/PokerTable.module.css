@@ -3,9 +3,26 @@
     border: 10px solid #6b4423; 
     border-radius: 50px;
     height: 100%;
-
     background: #006400; 
     background-image: linear-gradient(rgba(0, 100, 0, 0.5), rgba(0, 100, 0, 0.5)), url('https://www.transparenttextures.com/patterns/stucco.png'); /* Green velvet texture */
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
     position: relative;
+}
+.card{
+    position: absolute;    
+}
+.animate {
+    animation: moveCenter 1s forwards;
+}
+/* Animation */
+@keyframes moveCenter {
+    from {
+        top: 50px;
+        left: 50px;
+    }
+    to {
+        top: calc(33% + (10px*var(--index)));
+        left: calc(50% + (10px*var(--index)));
+        transform: translate(0px); 
+    }
 }

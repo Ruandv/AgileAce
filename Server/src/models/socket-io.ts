@@ -5,6 +5,7 @@ export interface ServerToClientEvents {
   chat: (msg: string) => void;
   updateSettings: (settings: string) => void;
   join: (roomName: string) => void;
+  shotClock: (data:string) => void;
 }
 
 //The ones declared in the ClientToServerEvents interface are used when receiving events:

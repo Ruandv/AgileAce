@@ -5,6 +5,8 @@ import { User } from '../../models/user';
 import { useRoom } from '../../contexts/roomSettingsContext';
 import { useSocket } from '../../contexts/SocketContext';
 import styles from './PokerTable.module.css';
+import Modal from '../modal/modal';
+import { ModalProps } from '../../models/modalProps';
 
 interface Props {
     // define your props here
@@ -13,68 +15,118 @@ interface Props {
 const PokerTable: React.FC<Props> = (props) => {
     const socket = useSocket();
     const roomCtx = useRoom();
+    const shotClockRef = useRef<HTMLDivElement>(null);
+    const shotClockTimerRef = useRef<any>(null);
     let api = useRef<ChatRoomService>();
-
+    const [modalProps, setModalProps] = useState<ModalProps>({} as ModalProps);
+    const [showModal, setShowModal] = useState<boolean>(false);
     const [playCards, setPlayCards] = useState<number[]>([]);
+
+    socket.on('shotClock', (res) => {
+        const data = JSON.parse(res);
+        if (!shotClockTimerRef.current) {
+            // create a timer that updates showVotes
+            shotClockTimerRef.current = setInterval(() => {
+                //parse shotClockRef.current?.innerText to int 
+                let nbr = shotClockRef.current ? parseInt(shotClockRef.current.innerText) : 0;
+                if (isNaN(nbr)) {
+                    nbr = 0;
+                }
+                nbr = nbr + 1;
+                shotClockRef.current!.innerText = nbr.toString();
+                if (nbr >= 2) {
+                    stop(data);
+                    shotClockRef.current!.onclick = () => shotClock();
+                    shotClockRef.current!.innerHTML = `<p>Shot Clock</p>`;
+                }
+            }, 1000);
+        }
+    });
+
+    socket.on('showVotes', () => {
+
+    });
 
     useEffect(() => {
         // check the querystring to retrieve the room name
         const roomName = new URLSearchParams(window.location.search).get('roomName') ?? ChatRoomService.getRoomName();
-        const userName = new URLSearchParams(window.location.search).get('userName') ?? ChatRoomService.getUserName();
         if (roomName === null) {
             window.location.href = '/newRoom';
         }
         else {
             api.current = ChatRoomService.getInstance(socket, roomName);
-            api.current.join(roomName, userName);
             setPlayCards(roomCtx.playCards);
         }
     }, []);
+    useEffect(() => {
+        setShowModal(false);
+    }, [roomCtx.users])
+    const stop = (data: any) => {
+        clearInterval(shotClockTimerRef.current);
+        setShowModal(true);
+        setModalProps({
+            title: "Results",
+            content:
+                <div>
+                    <p>Total votes: {data.votes}</p>
+                    <p>Average: {data.value / data.votes}</p>
+                </div>,
+            close: () => { setShowModal(false); api.current?.resetVotes(); },
+            actions: <>
+                <button onClick={() => {
+                    setShowModal(false); api.current?.resetVotes();
+                }
+                } data-modal-hide="default-modal" type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">New Game</button>
+            </>
+        } as unknown as ModalProps);
+    };
 
-    function toggleButton(user: User, cardIndex: number): void {
+    const toggleButton = (user: User, cardIndex: number): void => {
         if (user.value === cardIndex.toString()) {
             cardIndex = -1;
         }
         api.current?.voted(cardIndex);
     }
+
+    const shotClock = (): void => {
+        api.current?.showVotes();
+    };
+
     return (
         <>
             <div className={styles['poker-table']}>
                 <div
-                    id="right"
-                    className="flex items-center justify-center"
+                    id='players'
+                    className="flex max-h-[80%] flex-col flex-wrap justify-center"
                 >
-                    <div>
-                        {roomCtx.users.map((user, i) => {
-                            if (ChatRoomService.getUserId() !== user.userId) {
-                                return (
-                                    <div key={`${user.userId}_${i}`} className='flex flex-row'>
-                                        <div className="flex flex-col items-center">
-                                            <img
-                                                className="rounded-full h-16 w-16"
-                                                src="https://i.pravatar.cc/200"
-                                                alt="user"
-                                            />
-                                            <p className="text-sm font-semibold text-gray-800">
-                                                {user.userName}
-                                            </p>
-                                        </div>
-                                        <span className="flex flex-row m-5">
-
-                                            <PokerCard
-                                                key={`${user.userId}_${i}_${0}`}
-                                                display={'?'}
-                                                isActive={user.voted === true}
-                                            />
-                                        </span>
-                                    </div>);
-                            }
-                        })}
-                    </div>
+                    {roomCtx.users.map((user, i:number) => {
+                        if (ChatRoomService.getUserId() !== user.userId) {
+                            return (
+                                <div key={`${user.userId}_${i} `} className='flex flex-row items-center'>
+                                    <div className="flex flex-col items-center">
+                                        <img
+                                            className="rounded-full h-16 w-16"
+                                            src="https://i.pravatar.cc/200"
+                                            alt="user"
+                                        />
+                                        <p className="text-sm font-semibold text-gray-800">
+                                            {user.userName}
+                                        </p>
+                                    </div>
+                                    {user.voted && <span  style={{ '--index': `${i}` } as React.CSSProperties} className={`flex flex-row m-5 ${styles.card} ${styles.animate}`}>
+                                        <PokerCard
+                                            key={`${user.userId}_${i}_${0} `}
+                                            display={showModal ? user.value : '?'}
+                                            isActive={false}
+                                        />
+                                    </span>}
+                                </div>);
+                        }
+                    })}
                 </div>
-                <div className='absolute bottom-0 left-1/3'>
+                <div id='me' className='absolute bottom-0 left-1/3'>
                     {roomCtx.users.filter(x => x.userId === ChatRoomService.getUserId()).map((user, i) => {
-                        return (<div key={`${user.userId}_${i}`} className='flex flex-row'>
+                        return (<div key={`${user.userId}_${i} `} className='flex flex-row'>
                             <div className="flex flex-col items-center">
                                 <img
                                     className="rounded-full h-16 w-16"
@@ -88,7 +140,7 @@ const PokerTable: React.FC<Props> = (props) => {
                             <span className="flex flex-row m-5">
                                 {playCards?.map((card, idx) => (
                                     <PokerCard
-                                        key={`${user.userId}_${i}_${idx}`}
+                                        key={`${user.userId}_${i}_${idx} `}
                                         display={card.toString()}
                                         isActive={card === Number(user.value)}
                                         onClick={() => toggleButton(user, card)}
@@ -98,7 +150,11 @@ const PokerTable: React.FC<Props> = (props) => {
                         </div>);
                     })}
                 </div>
+                <div ref={shotClockRef} className="absolute bottom-0 right-0" onClick={shotClock}>
+                    <p>Shot Clock</p>
+                </div>
             </div>
+            {showModal && <Modal {...modalProps}></Modal>}
         </>
     );
 }

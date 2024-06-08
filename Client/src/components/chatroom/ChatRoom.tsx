@@ -4,6 +4,7 @@ import ChatRoomService from '../../services/chatRoom.service';
 import { useChatMessages, useSocket } from '../../contexts/SocketContext';
 import { useRoom } from '../../contexts/roomSettingsContext';
 import Modal from '../modal/modal';
+import { ModalProps } from '../../models/modalProps';
 
 function ChatRoom() {
   const socket = useSocket();
@@ -16,13 +17,11 @@ function ChatRoom() {
   useEffect(() => {
     // check the querystring to retrieve the room name
     const roomName = new URLSearchParams(window.location.search).get('roomName') ?? ChatRoomService.getRoomName();
-    const userName = new URLSearchParams(window.location.search).get('userName') ?? ChatRoomService.getUserName();
     if (roomName === null) {
       window.location.href = '/newRoom';
     }
     else {
       api.current = ChatRoomService.getInstance(socket, roomName);
-      api.current.join(roomName, userName);
     }
   }, []);
 
@@ -86,7 +85,7 @@ function ChatRoom() {
   }
   let api = useRef<ChatRoomService>();
 
-  const modalProps = {
+  const modalProps:ModalProps = {
     title: "Change User Name",
     close: () => setIsModalOpen(false),
     content: <p>

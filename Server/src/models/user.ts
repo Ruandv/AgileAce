@@ -4,4 +4,5 @@ export interface User {
     userId: string;
     voted: boolean;
     value: string;
+    socketId: string;
 }

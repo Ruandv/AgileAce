@@ -17,8 +17,8 @@ export const defaultSocket = io(API_URL, {
     withCredentials: false,
     extraHeaders: {
         "my-custom-header": "abcd",
-        "my-user-name": sessionStorage.getItem("userName") ?? localStorage.getItem("userName") ?? "John Doe",
-        "my-user-id": sessionStorage.getItem("userId") ?? localStorage.getItem("userId") ?? '',
+        "my-user-name": sessionStorage.getItem("userName") ?? "John Doe",
+        "my-user-id": sessionStorage.getItem("userId") ?? '',
     },
 });
 
@@ -72,13 +72,12 @@ export const SocketContextProvider = ({
         socket.on("connect", () => {
             console.log("Socket connected:", socket.id);
             // join the room that is in useRoom
-
+            
         });
 
         socket.on('userId', (userId: string) => {
             console.log('User ID received:', userId);
             sessionStorage.setItem('userId', userId);
-            localStorage.setItem('userId', userId);
         });
 
         socket.on("updateSettings", (msg: string) => {
@@ -87,6 +86,9 @@ export const SocketContextProvider = ({
             setChatRoom(JSON.parse(msg));
         });
 
+        socket.on("disconnecting", () => {
+            console.log("Socket disconnecting");
+        });
         socket.on("disconnect", () => {
             console.log("Socket disconnected");
         });

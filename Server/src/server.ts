@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import express from 'express';
-import http from 'http';
+import http, { get } from 'http';
 import { Server, Socket } from 'socket.io';
 import cors from 'cors';
 import path from 'path';
@@ -50,12 +50,13 @@ io.on('connection', (socket: Socket) => {
         console.log(`\t${file}`);
         const data = fs.readFileSync(file, 'utf8');
         const roomData = JSON.parse(data);
-        rooms.push(...roomData);
+        rooms.push(roomData);
       }
     });
   };
 
   socket.on('voted', (roomName: string, card: number) => {
+    console.log("voted", socket.id)
     let userId = socket.handshake.headers['my-user-id']?.toString();
     let room = getRoom(roomName);
     if (!room) {
@@ -76,7 +77,7 @@ io.on('connection', (socket: Socket) => {
     const user: User = room?.users.find((user) => user.userId === userId) as User;
 
     room!.messages.push({
-      text: `${user.userName} is now known as ${userName}`,
+      text: `${user.userName} is now known as ${userName}`, 
       userId: userId!,
       date: new Date()
     });
@@ -107,13 +108,34 @@ io.on('connection', (socket: Socket) => {
     updateSettings(room);
   });
 
+  socket.on('showVotes', (roomName: string) => {
+    // calculate the votes
+    const data = { votes: 0, value: 0 };
+    getRoom(roomName)?.users.forEach((user) => {
+      if (user.voted === true && user.value !== "?") {
+        data.value += parseInt(user.value);
+        data.votes++;
+      }
+    });
+    io.to(roomName).emit('shotClock', JSON.stringify(data));
+
+  });
+
+  socket.on('resetVotes', (roomName: string) => {
+    getRoom(roomName)?.users.forEach((user) => {
+      user.value = "?";
+      user.voted = false;
+    });
+    updateSettings(getRoom(roomName)!);
+  });
+
   socket.on('join', async (roomName, userName) => {
     let userId = socket.handshake.headers['my-user-id']?.toString();
     let room = getRoom(roomName);
-    socket.rooms.forEach((room) => {
-      console.log(`Leaving room ${room}`);
-      socket.leave(room);
-    });
+    // socket.rooms.forEach((room) => {
+    //   console.log(`Leaving room ${room}`);
+    //   socket.leave(room);
+    // });
     socket.join(roomName);
     if (!userId || userId === '') {
       userId = uuidv4();
@@ -131,23 +153,24 @@ io.on('connection', (socket: Socket) => {
           date: new Date()
         } as ChatMessage],
         roomName: roomName,
-        roomId: new Date().toDateString(),
+        roomId: uuidv4(),
         users: [{
           userName: userName,
           avatar: "",
           value: "?",
           voted: false,
-          userId: userId
+          userId: userId,
+          socketId: socket.id
         } as User]
       };
       rooms.push(room);
     }
     else {
-      room.messages.push({
-        text: `${userName} [${userId}] joined the room`,
-        userId: userId,
-        date: new Date()
-      });
+      // room.messages.push({
+      //   text: `${userName} [${userId}] joined the room`,
+      //   userId: userId,
+      //   date: new Date()
+      // });
       const user = room?.users.find((user) => user.userId === userId);
       if (!user) {
         room.users.push({
@@ -155,22 +178,19 @@ io.on('connection', (socket: Socket) => {
           avatar: "",
           userId: userId,
           voted: false,
-          value: "?"
+          value: "?",
+          socketId: socket.id
         });
       }
     }
     logRooms('join');
     updateSettings(room);
   });
-
-  socket.on('disconnect', (reason, details) => {
-    // the reason of the disconnection, for example "transport error"
-    console.log(reason);
-    console.log(JSON.stringify(details, null, 2));
+  socket.on("disconnecting", () => {
     let userId = socket.handshake.headers['my-user-id']?.toString();
-
-    // find the room that the user is in 
-    const roomsData = rooms.filter(room => room.users.some(user => user.userId === userId))
+    const roomsToExit = Array.from(socket.rooms).filter((room) => room !== socket.id);
+    // find all the rooms where RoomToExit is part of
+    const roomsData = rooms.filter(room => roomsToExit.some((roomToExit) => roomToExit === room.roomName))
     // remove the user from the room
     if (roomsData) {
       Array.from(roomsData).forEach(x => {
@@ -178,12 +198,16 @@ io.on('connection', (socket: Socket) => {
       }
       )
     }
+  });
+
+  socket.on('disconnect', (reason, details) => {
+    // the reason of the disconnection, for example "transport error"
+    console.log(reason);
+    console.log(JSON.stringify(details, null, 2));
     console.log('user disconnected');
-    //logRooms('disconnect');
     rooms.forEach((room) => {
       updateSettings(room);
     });
-    logRooms('disconnect');
   });
 });
 
@@ -218,13 +242,16 @@ function logRooms(func: string) {
       console.error(`Value: ${value} BUT key is null`)
       return;
     }
-    const roomName = getRoom(key.toString())?.roomName;
-    if (roomName) {
-      console.log(`Room: ${roomName} has ${value.size} connections`);
+    const room = getRoom(key.toString());
+    if (room) {
+      console.log(`Room: ${room?.roomName} has ${value.size} connections`);
       // log all the connections in the room
       value.forEach((socketId) => {
         console.log(`\t${socketId}`);
       });
+      // remove all the users where the socketId is not part of the user.socketId
+      room.users = room.users.filter((user) => value.has(user.socketId));
+      updateSettings(room);
     }
   });
 }  
