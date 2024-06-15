@@ -19,14 +19,14 @@ class LlmService {
     }
 
     async postVoice(messages: ChatRequestMessageUnion[]) {
-        const ep = process.env.OPENAI_ENDPOINT!;
-        const secret = process.env.OPENAI_API_KEY!
+        const ep = process.env.AZURE_OPENAI_ENDPOINT!;
+        const secret = process.env.AZURE_OPENAI_API_KEY!
         const gptModel = new OpenAIClient(
             ep,
             new AzureKeyCredential(secret),
         );
         try {
-            const result = await gptModel.getChatCompletions(process.env.OPENAI_API_CHAT_DEPLOYMENT_NAME_GPT4!, messages, {
+            const result = await gptModel.getChatCompletions(process.env.AZURE_OPENAI_API_CHAT_DEPLOYMENT_NAME_GPT4!, messages, {
                 maxTokens: 200,
                 temperature: 0.7
             });
