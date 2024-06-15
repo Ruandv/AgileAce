@@ -61,7 +61,7 @@ const PokerTable: React.FC<Props> = (props) => {
     useEffect(() => {
         setShowModal(false);
     }, [roomCtx.users])
-    const stop = (data: any) => {
+    const stop = (data: any) => { 
         clearInterval(shotClockTimerRef.current);
         setShowModal(true);
         setModalProps({

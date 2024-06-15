@@ -27,6 +27,8 @@ body, html {
 
   .chat-pane {
       display: block;
+      max-width: 500px;
+      overflow: auto ;
   }
 
   .play-area {

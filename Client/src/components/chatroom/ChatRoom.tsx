@@ -5,12 +5,14 @@ import { useChatMessages, useSocket } from '../../contexts/SocketContext';
 import { useRoom } from '../../contexts/roomSettingsContext';
 import Modal from '../modal/modal';
 import { ModalProps } from '../../models/modalProps';
+import Markdown from 'react-markdown'
 
 function ChatRoom() {
   const socket = useSocket();
   const message = useRef<HTMLInputElement>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const chatRoomService = ChatRoomService.getInstance(socket);
+
   const messages = useChatMessages();
   const room = useRoom();
 
@@ -62,6 +64,8 @@ function ChatRoom() {
       return 'long ago';
     }
     function getUserName(userId: string): React.ReactNode {
+      if(userId==='999')
+        return 'BOT';
       const user = room.users.find((user) => user.userId === userId);
       return user?.userName ?? 'Unknown';
     }
@@ -78,14 +82,17 @@ function ChatRoom() {
           </div>
         </div>
         <div className="m-2">
-          <p className="text-gray-800">{msg.text}</p>
+          {msg.text.indexOf('.mp3')>0 ? <audio controls autoPlay>
+            <source src={msg.text} type="audio/mp3" />
+            Your browser does not support the audio element.
+          </audio> : <p className="text-gray-800">{<Markdown>{msg.text}</Markdown>}</p>}
         </div>
       </div>
     ))
   }
   let api = useRef<ChatRoomService>();
 
-  const modalProps:ModalProps = {
+  const modalProps: ModalProps = {
     title: "Change User Name",
     close: () => setIsModalOpen(false),
     content: <p>
@@ -134,14 +141,14 @@ function ChatRoom() {
         </div>
         <button
           type="button" mx-2
-          className="bg-blue-400 text-white rounded-sm right-0 px-4 py-2 mx-2"
+          className="bg-blue-400 text-white rounded-sm right-0 px-4 m-2 py-2 mx-2"
           onClick={() => setIsModalOpen(true)}
         >
           Change name
         </button>
         <button
           type="submit"
-          className="bg-blue-800 text-white rounded-sm right-0 px-4 py-2"
+          className="bg-blue-800 text-white rounded-sm right-0 m-2 px-4 py-2"
         >
           Send
         </button>

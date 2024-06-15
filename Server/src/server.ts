@@ -11,6 +11,8 @@ import { User } from './models/user';
 import fs from 'fs';
 import dotenv from 'dotenv';
 import { VoterRoll } from './models/VoterRoll';
+import LlmService from './services/llm.service';
+import { ChatRequestAssistantMessage, ChatRequestMessage, ChatRequestMessageUnion } from '@azure/openai';
 dotenv.config()
 
 const app = express();
@@ -87,7 +89,7 @@ io.on('connection', (socket: Socket) => {
 
   });
 
-  socket.on('chat', (roomName: string, msg: string) => {
+  socket.on('chat', async (roomName: string, msg: string) => {
     //read the socket headers to retrieve the user name
     let userId = socket.handshake.headers['my-user-id']?.toString();
     if (!userId || userId === '') {
@@ -100,11 +102,48 @@ io.on('connection', (socket: Socket) => {
     if (!room) {
       return;
     }
+
     room.messages.push({
       text: msg,
       userId: userId,
       date: new Date()
     });
+
+    updateSettings(room);
+    if (msg.startsWith('/') && process.env.AI_SERVICE_URL && process.env.AI_SERVICE_SECRET) {
+      const service = LlmService.getInstance()
+      const roomData = { ...room, messages: [] };
+      let messages: ChatRequestMessageUnion[] = [];
+      messages.push({
+        role: 'system', content: `You are a friendly bot and your name is JAMIE. 
+        You are helping a user with some detail relating to the poker sizing that they are busy with.
+        Answer with short straight to the point messages ` });
+        messages.push({ role: 'system', content: `the current time is : ${new Date()}` });
+        messages.push({ role: 'system', content: `This is the data that you might want to use: """${JSON.stringify(roomData)}"""` });
+      room.messages.map((message) => {
+        const role:any = message.userId === '999' ? 'assistant' : 'user';
+        messages.push({ role:role, content: message.text });
+      });
+      messages.push({ role: 'assistant', content: msg } as ChatRequestAssistantMessage);
+      const result = await service.postVoice(messages);
+      const regex = /\/audio\/.*?\.mp3/;
+      const match = result.choices[0].message?.content!.match(regex);
+      if (match) {
+        const url = `${process.env.AI_SERVICE_URL}${match[0]}`;
+        room.messages.push({
+          text: url,
+          userId: '999',
+          date: new Date()
+        });
+      }
+      else {
+        room.messages.push({
+          text: result.choices[0].message?.content!,
+          userId: '999',
+          date: new Date()
+        });
+      }
+    }
     logRooms('chat');
     updateSettings(room);
   });
@@ -135,7 +174,7 @@ io.on('connection', (socket: Socket) => {
     data.average = data.value / data.votes;
     data.closest = getRoom(roomName)!.playCards.reduce((prev, curr) => Math.abs(curr - data.average) < Math.abs(prev - data.average) ? curr : prev);
     io.to(roomName).emit('shotClock', JSON.stringify(data));
-  }); 
+  });
 
   socket.on('resetVotes', (roomName: string) => {
     getRoom(roomName)?.users.forEach((user) => {
@@ -202,6 +241,7 @@ io.on('connection', (socket: Socket) => {
     logRooms('join');
     updateSettings(room);
   });
+
   socket.on("disconnecting", () => {
     let userId = socket.handshake.headers['my-user-id']?.toString();
     const roomsToExit = Array.from(socket.rooms).filter((room) => room !== socket.id);
