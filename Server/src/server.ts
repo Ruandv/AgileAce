@@ -110,7 +110,7 @@ io.on('connection', (socket: Socket) => {
     });
 
     updateSettings(room);
-    if (msg.startsWith('/') && process.env.AI_SERVICE_URL && process.env.AI_SERVICE_SECRET) {
+    if (msg.startsWith('/') && process.env.AZURE_OPENAI_ENDPOINT && process.env.AZURE_OPENAI_API_KEY) {
       const service = LlmService.getInstance()
       const roomData = { ...room, messages: [] };
       let messages: ChatRequestMessageUnion[] = [];
