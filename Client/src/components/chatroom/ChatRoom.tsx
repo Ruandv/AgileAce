@@ -63,26 +63,28 @@ function ChatRoom() {
       }
       return 'long ago';
     }
-    function getUserName(userId: string): React.ReactNode {
-      if(userId==='999')
-        return 'BOT';
+    function getUser(userId: string): any {
       const user = room.users.find((user) => user.userId === userId);
-      return user?.userName ?? 'Unknown';
+      const info = { userName: user?.userName, avatar: user?.avatar };
+      if(userId === '999'){
+        console.log(info.avatar);
+      }
+      return info;
     }
 
     return messages.map((msg, index) => (
       <div key={index} className="p-4 rounded-lg bg-white shadow">
         <div className="flex">
           <div className="w-1/4 m-2">
-            <img className="card-img-top" src="https://i.pravatar.cc/200" width="100%" alt=""></img>
+            <img className="card-img-top rounded-full h-16 w-16" src={getUser(msg.userId).avatar} width="100%" alt={getUser(msg.userId).userName}></img>
           </div>
           <div className="w-3/4 m-2">
-            <h3 className=" font-bold">{getUserName(msg.userId)}</h3>
+            <h3 className=" font-bold">{getUser(msg.userId).userName}</h3>
             <small>{getRTF(msg.date)}</small>
           </div>
         </div>
         <div className="m-2">
-          {msg.text.indexOf('.mp3')>0 ? <audio controls autoPlay>
+          {msg.text.indexOf('.mp3') > 0 ? <audio controls autoPlay>
             <source src={msg.text} type="audio/mp3" />
             Your browser does not support the audio element.
           </audio> : <p className="text-gray-800">{<Markdown>{msg.text}</Markdown>}</p>}
@@ -140,8 +142,7 @@ function ChatRoom() {
 
         </div>
         <button
-          type="button" mx-2
-          className="bg-blue-400 text-white rounded-sm right-0 px-4 m-2 py-2 mx-2"
+          type="button" className="bg-blue-400 text-white rounded-sm right-0 px-4 m-2 py-2 mx-2"
           onClick={() => setIsModalOpen(true)}
         >
           Change name
@@ -157,7 +158,7 @@ function ChatRoom() {
         <div className="px-6 py-4">
           <div className="border-b border-gray-300 mb-6 pb-2 flex justify-between items-center">
             <h1 className="text-3xl font-semibold">
-              {room.roomName} ({room.users.length.toString()} users)
+              {room.roomName} ({room.users.filter(x => x.userId !== '999').length.toString()} users)
             </h1>
           </div>
           <div className="chat-history flex flex-col space-y-4  flex-col-reverse">

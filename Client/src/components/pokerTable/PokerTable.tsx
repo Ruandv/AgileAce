@@ -26,27 +26,41 @@ const PokerTable: React.FC<Props> = (props) => {
         const data = JSON.parse(res);
         if (!shotClockTimerRef.current) {
             // create a timer that updates showVotes
+            let counter = 5;
+            setModalProps({
+                title: "Countdown",
+                content:
+                    <div>
+                        { counter }
+                    </div >,
+                close: () => {
+                },
+                actions: <>
+                </>
+            } as unknown as ModalProps);
+            setShowModal(true);
             shotClockTimerRef.current = setInterval(() => {
-                //parse shotClockRef.current?.innerText to int 
-                let nbr = shotClockRef.current ? parseInt(shotClockRef.current.innerText) : 0;
-                if (isNaN(nbr)) {
-                    nbr = 0;
-                }
-                nbr = nbr + 1;
-                shotClockRef.current!.innerText = nbr.toString();
-                if (nbr >= 2) {
+                if (counter < 1) {
                     stop(data);
-                    shotClockRef.current!.onclick = () => shotClock();
-                    shotClockRef.current!.innerHTML = `<p>Shot Clock</p>`;
+                    counter = 5;
+                    return ;
                 }
+                counter--;
+                setModalProps({
+                    title: "Countdown",
+                    content:
+                        <div>
+                            { counter }
+                        </div >,
+                    close: () => {
+                    },
+                    actions: <>                        
+                    </>
+                } as unknown as ModalProps);
             }, 1000);
         }
     });
-
-    socket.on('showVotes', () => {
-
-    });
-
+    
     useEffect(() => {
         // check the querystring to retrieve the room name
         const roomName = new URLSearchParams(window.location.search).get('roomName') ?? ChatRoomService.getRoomName();
@@ -58,12 +72,13 @@ const PokerTable: React.FC<Props> = (props) => {
             setPlayCards(roomCtx.playCards);
         }
     }, []);
+
     useEffect(() => {
         setShowModal(false);
     }, [roomCtx.users])
-    const stop = (data: any) => { 
+
+    const stop = (data: any) => {
         clearInterval(shotClockTimerRef.current);
-        setShowModal(true);
         setModalProps({
             title: "Results",
             content:
@@ -83,10 +98,13 @@ const PokerTable: React.FC<Props> = (props) => {
                     <p>Average: {data.average}</p>
                     <p>Closest: {data.closest}</p>
                 </div >,
-            close: () => { setShowModal(false); api.current?.resetVotes(); },
+            close: () => {
+                setShowModal(false); api.current?.resetVotes();
+            },
             actions: <>
                 <button onClick={() => {
                     setShowModal(false); api.current?.resetVotes();
+                    shotClockTimerRef.current = undefined;
                 }
                 } data-modal-hide="default-modal" type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">New Game</button>
             </>
@@ -118,7 +136,7 @@ const PokerTable: React.FC<Props> = (props) => {
                                     <div className="flex flex-col items-center">
                                         <img
                                             className="rounded-full h-16 w-16"
-                                            src="https://i.pravatar.cc/200"
+                                            src={user.avatar ?? ''}
                                             alt="user"
                                         />
                                         <p className="text-sm font-semibold text-gray-800">
@@ -142,7 +160,7 @@ const PokerTable: React.FC<Props> = (props) => {
                             <div className="flex flex-col items-center">
                                 <img
                                     className="rounded-full h-16 w-16"
-                                    src="https://i.pravatar.cc/200"
+                                    src={user.avatar}
                                     alt="user"
                                 />
                                 <p className="text-sm font-semibold text-gray-800">
