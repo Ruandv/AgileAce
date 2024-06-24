@@ -35,11 +35,11 @@ class LlmService {
         try {
             const result = await gptModel.getChatCompletions(process.env.AZURE_OPENAI_API_CHAT_DEPLOYMENT_NAME_GPT4!, messages, {
                 maxTokens: 200,
-                temperature: 0.7
+                temperature: 0.9,
             });
 
             for (const choice of result.choices) {
-                console.log(choice.message?.content);
+                console.log(choice.message?.content,result.usage?.totalTokens);
             }
             return result;
         } catch (e) {
@@ -65,7 +65,7 @@ class LlmService {
         const prompt = message;
         // const response = await model.getImages(process.env.AZURE_OPENAI_API_IMAGE_DEPLOYMENT_NAME!,
         //     prompt,options);
-        debugger;
+
         const response = { data: [{ url: "https://dalleproduse.blob.core.windows.net/private/images/4e59a74b-bcfb-441d-b250-e776f5206097/generated_00.png?se=2024-06-17T17%3A35%3A58Z&sig=p70NcjmIbrb9fQrLa7SrkAR7qPLMfGO4HwqGXSI8fg0%3D&ske=2024-06-22T12%3A55%3A44Z&skoid=09ba021e-c417-441c-b203-c81e5dcd7b7f&sks=b&skt=2024-06-15T12%3A55%3A44Z&sktid=33e01921-4d64-4f8c-a055-5bdaffd5e33d&skv=2020-10-02&sp=r&spr=https&sr=b&sv=2020-10-02" }] };
         return response;
     }

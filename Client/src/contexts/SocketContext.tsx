@@ -72,7 +72,7 @@ export const SocketContextProvider = ({
         socket.on("connect", () => {
             console.log("Socket connected:", socket.id);
             // join the room that is in useRoom
-            
+
         });
 
         socket.on('userId', (userId: string) => {
@@ -80,9 +80,27 @@ export const SocketContextProvider = ({
             sessionStorage.setItem('userId', userId);
         });
 
+        socket.on('chat', (msgs: string) => {
+            const msgArr = JSON.parse(msgs);
+            sessionStorage.setItem('privateChat', JSON.stringify(msgArr));
+            setChatMessages(currentMessages => [...currentMessages, ...msgArr]);
+        });
+
         socket.on("updateSettings", (msg: string) => {
             console.log("Update Settings received:", msg);
-            setChatMessages(JSON.parse(msg).messages);
+            const settingMessages = JSON.parse(msg).messages;
+            setChatMessages(currentMessages => {
+                // find all the messages that are in both currentMessages and settingMessages
+                const bothMessages = currentMessages.filter((msg: ChatMessage) => settingMessages.some((settingMsg: ChatMessage) => settingMsg.userId === msg.userId && settingMsg.date === msg.date));
+                // find all the messages that are in currentMessages but not in settingMessages
+                const currentOnlyMessages  = JSON.parse(sessionStorage.getItem('privateChat') ?? '[]');
+                // find all the messages that are in settingMessages but not in currentMessages
+                const settingOnlyMessages = settingMessages.filter((msg: ChatMessage) => !currentMessages.some((settingMsg: ChatMessage) => settingMsg.userId === msg.userId && settingMsg.date === msg.date));
+                // merge the messages and order by date
+                const mergedMessages = [...bothMessages, ...currentOnlyMessages, ...settingOnlyMessages].sort((a, b) => a.date.localeCompare(b.date));
+
+                return mergedMessages;
+            });
             setChatRoom(JSON.parse(msg));
         });
 
